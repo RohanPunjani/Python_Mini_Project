@@ -4,8 +4,148 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+        crossorigin="anonymous"></script>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+        }
+        html,body{
+            height: 100vh;
+        }
+        .nav{
+            background-color: #3a415e;
+        }
+        .nav .row{
+            margin-bottom: 0;
+        }
+        .blog_container{
+            background: #e5dffa;
+            min-height: 100vh;
+        }
+        h1{
+            margin:0;
+            padding:2.8rem;
+        }
+        #search_text{
+            background: #ecfbfc;
+            border-radius: 5px;
+            color: black;
+            text-indent: 40px;
+        }
+        .tabs, .tab{
+            height: 64px;
+        }
+        ::placeholder {
+            color: #949595;
+            opacity: 1;
+        }
+        .card{
+            box-shadow: none;
+            border-radius: 5px;
+        }
+        .card-content{
+            display: flex;
+            align-items: center;
+        }
+        .card .card-action a:not(.btn):not(.btn-large):not(.btn-small):not(.btn-large):not(.btn-floating){
+            color: #5938e3;
+        }
+        .card .card-action a:not(.btn):not(.btn-large):not(.btn-small):not(.btn-large):not(.btn-floating):hover{
+            color: #1f2064;
+        }
+    </style>
 </head>
 <body>
-    Blog Page
+        <nav class="nav">
+            <div class="row">
+                <div class="col m2">
+                    <a href="#" class="brand-logo left">ABCDE</a>
+                </div>
+                <form action="">
+                    <div class="col m5">
+                        <input type="text" name="search_text" id="search_text" placeholder="Search from all articles">
+                    </div>
+                    <div class="col m1">
+                        <button class="btn #5e35b1 deep-purple darken-1" type="submit" name="action">
+                            Go
+                        </button>
+                    </div>
+                </form>
+                <div class="tabs_container col m2">
+                    <ul class="tabs tabs-transparent" id="tabs-swipe-demo">
+                        <li class="tab col s6" style="margin-top: 15px;"><a class="active" href="#test1">Drafts</a></li>
+                        <li class="tab col s6" style="margin-top: 15px;"><a href="#test2">Publish</a></li>
+                    </ul>
+                </div>
+                <div class="col m2 right">
+                    {% if user.is_authenticated %}
+                        <ul>
+                            <li>Hello, {{user.first_name}}</li>
+                            <li><a href="accounts/logout">Logout</a></li>
+                        </ul>
+                    {% else %}
+                        <ul>
+                            <li>
+                                <a href="accounts/login">Login</a>
+                            </li>
+                            <li>
+                                <a href="accounts/register">Register</a>
+                            </li>
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+
+        <div class="blog_container">
+            <div id="test1" class="blog_container col s12">
+                <h1>Drafts : </h1>
+                <div class="container">
+                    <div class="row">
+
+                        {% for blog in blogs %}
+
+                            <div class="col m4">
+                                <div class="card">
+                                    <div class="card-stacked">
+                                        <div class="card-content">
+                                            <h5>{{blog.heading}}</h5>
+                                        </div>
+                                        <div class="card-action">
+                                            <a class="cto" href="#">
+                                                <i class="material-icons tiny">edit</i> | Edit
+                                            </a>
+                                            <a class="cto" href="#">
+                                                <i class="material-icons tiny">delete</i> | Delete
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        {% endfor %}
+            
+                    </div>
+                </div>
+            </div>
+            <div id="test2" class="blog_container col s12">
+                <h1>
+                    Published :
+                </h1>
+            </div>
+
+        </div>
+
+    <script>
+         $(document).ready(function () {
+            $('.tabs').tabs();
+            // $('#tabs-swipe-demo').tabs({ 'swipeable': true });
+        });
+    </script>
 </body>
 </html>
