@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Register Form</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+        <style>
+            .register-form-container {
+                padding: 20px;
+                border-radius: 20px;
+            }
+
+            body {
+                background: url('https://pvrinstitute.org/media/4319/abstract-background.jpg?width=1100');
+                background-size: cover;
+                background-attachment: fixed;
+                color: white;
+                font-family: fantasy;
+            }
+
+            .black-layer {
+                position: absolute;
+                height: 100vh;
+                width: 100vw;
+                background: rgba(0, 0, 0, 0.6);
+                z-index: -1;
+            }
+
+            .message {
+                padding: 5px;
+                margin: 5px;
+                border-radius: 5px;
+            }
+            .container{
+                height: 100vh;
+                width: 100vw;
+            }
+            .login-form-container{
+                margin: 50px 0;
+                padding: 20px;
+                box-shadow: 0 0 10px rgba(0,0,0,0.8);
+                transition: all 0.2s ease-in-out;
+            }
+            .login-form-container:hover{
+                transform: scale(1.05, 1.05);
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="black-layer"></div>
+        <div class="container d-flex justify-content-center align-items-center">
+                <div class="login-form-container col-sm-10 col-md-4 col-ld-6">
+                    <form method="post" action="">
+                        {% csrf_token %}
+                        <h1 align=center>
+                            Log In Page
+                        </h1>
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="message bg-danger">
+                                    Note: {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                        <div class="form-group">
+                            <label for="username">Username: </label>
+                            <input type="text" id="username" class="form-control" name="username">
+                        </div>
+                        <div class="form-group">
+                            <label for="password1">Password: </label>
+                            <input type="password" id="password1" class="form-control" name="password">
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="form-group col-sm-6">
+                                <input type="submit" class="form-control btn btn-secondary" value="Submit" name="submit">
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <input type="reset" class="form-control" value="Reset" name="reset">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+        </div>
+    </body>
+
+</html>
