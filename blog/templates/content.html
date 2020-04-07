@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Blog</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+        crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            height: 100vh;
+        }
+
+        .nav {
+            background-color: #3a415e;
+        }
+
+        .nav .row {
+            margin-bottom: 0;
+        }
+
+        .blog_container {
+            background: #e5dffa;
+            min-height: 100vh;
+        }
+
+        h1 {
+            margin: 0;
+            padding: 2.8rem;
+        }
+
+        #search_text {
+            background: #ecfbfc;
+            border-radius: 5px;
+            color: black;
+            text-indent: 40px;
+        }
+
+        .tabs,
+        .tab {
+            height: 64px;
+        }
+
+        ::placeholder {
+            color: #949595;
+            opacity: 1;
+        }
+
+        .card {
+            box-shadow: none;
+            border-radius: 5px;
+        }
+
+        .card-content {
+            display: flex;
+            align-items: center;
+        }
+
+        .card .card-action a:not(.btn):not(.btn-large):not(.btn-small):not(.btn-large):not(.btn-floating) {
+            color: #5938e3;
+        }
+
+        .card .card-action a:not(.btn):not(.btn-large):not(.btn-small):not(.btn-large):not(.btn-floating):hover {
+            color: #1f2064;
+        }
+    </style>
+
+</head>
+<body>
+    <nav class="nav">
+        <div class="row">
+            <div class="col m2">
+                <a href="#" class="brand-logo left">ABCDE</a>
+            </div>
+            <div class="col m2 right">
+                {% if user.is_authenticated %}
+                <ul>
+                    <li>Hello, {{user.first_name}}</li>
+                    <li><a href="accounts/logout">Logout</a></li>
+                </ul>
+                {% else %}
+                <ul>
+                    <li>
+                        <a href="accounts/login">Login</a>
+                    </li>
+                    <li>
+                        <a href="accounts/register">Register</a>
+                    </li>
+                </ul>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+</body>
+</html>

@@ -101,7 +101,7 @@
                 </div>
             </div>
         </nav>
-
+        {% if user.is_authenticated %}
         <div class="blog_container">
             <div id="test1" class="blog_container col s12">
                 <h1>Drafts : </h1>
@@ -117,7 +117,7 @@
                                             <h5>{{blog.heading}}</h5>
                                         </div>
                                         <div class="card-action">
-                                            <a class="cto" href="#">
+                                            <a class="cto" href="{{blog.id}}">
                                                 <i class="material-icons tiny">edit</i> | Edit
                                             </a>
                                             <a class="cto" href="#">
@@ -140,6 +140,10 @@
             </div>
 
         </div>
+
+        {%else%}
+            <h1>Nothing to display please Login/Register</h1>
+        {% endif %}
 
     <script>
          $(document).ready(function () {

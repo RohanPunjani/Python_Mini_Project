@@ -5,6 +5,18 @@ from django.contrib.auth.models import User, auth
 
 
 def index(request):
-    blogs = blog.objects.all()
-    print(blogs)
-    return render(request, 'blog.html', {'blogs': blogs})
+    if(request.user.is_authenticated):
+        user = request.user
+        blogs = user.blog_set.all()
+        return render(request, 'blog.html', {'blogs': blogs})
+    else:
+        return render(request, 'blog.html', {'blogs': None})
+
+
+def blog_view(request, id):
+    if(request.user.is_authenticated):
+        user = request.user
+        blog = user.blog_set.get(id=id)
+        return render(request, 'content.html', {'blog': blog})
+    else:
+        return render(request, 'content.html', {'blog': None})
