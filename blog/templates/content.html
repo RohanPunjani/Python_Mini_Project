@@ -72,6 +72,57 @@
         .card .card-action a:not(.btn):not(.btn-large):not(.btn-small):not(.btn-large):not(.btn-floating):hover {
             color: #1f2064;
         }
+
+        .mainpage{
+            display: flex;
+        }
+        .mainbar{
+            background: #E5DFFA;
+            width: 80vw;
+        }
+
+        .page{
+            background: #fff;
+            min-height: 100vh;
+        }
+        .sidebar{
+            width: 20vw;
+            height: inherit;
+            background: #6E60AC;
+        }
+        #blog-heading{
+            font-size: 4rem;
+            height: 15vh;
+        }
+        #block-title{
+            color: white;
+            font-size: 3rem;
+            height: 10vh;
+        }
+        #block-content{
+            color: white;
+            font-size: 1.5rem;
+        }
+        #update-btn, .publish-btn{
+            margin: 2rem;
+            position: relative;
+        }
+        #merged_block_container{
+            height: auto;
+        }
+        .navcolor{
+            color: white;
+            background-color: #3a415e;
+        }
+        .back-btn{
+            font-size: 4rem;
+            color: #3a415e;
+        }
+        .plus-btn{
+            display: flex;
+            justify-content: center;
+            padding: 2vh;
+        }
     </style>
 
 </head>
@@ -79,13 +130,13 @@
     <nav class="nav">
         <div class="row">
             <div class="col m2">
-                <a href="#" class="brand-logo left">ABCDE</a>
+                <a href="#" class="brand-logo left">Bloggit</a>
             </div>
             <div class="col m2 right">
                 {% if user.is_authenticated %}
                 <ul>
                     <li>Hello, {{user.first_name}}</li>
-                    <li><a href="accounts/logout">Logout</a></li>
+                    <li><a href="../accounts/logout">Logout</a></li>
                 </ul>
                 {% else %}
                 <ul>
@@ -100,5 +151,85 @@
             </div>
         </div>
     </nav>
+    
+
+    <!-- main -->
+    <div class="container-fluid mainpage">
+        <div class="mainbar">
+            <form action="" method="POST">
+                {% csrf_token %}
+                <div class="container"><a href="/" class="waves-effect waves-light back-btn">
+                    <i class="material-icons medium">chevron_left</i>
+                </a>
+                <button class="btn waves-effect waves-light right navcolor publish-btn" type="submit" name="publish">Publish</button>
+                </div>
+                <div class="container page">
+                    <div class="container"> 
+                        <input type="text" id="blog-heading" name="blog-heading" value="{{blog.heading}}">
+                    </div>
+                    <div class="container" ondrop="drop(event)" ondragover="allowDrop(event)" id="merged_block_container">
+                        Allow Drop
+                        {% for block in merged_block %}
+                            <div class="card navcolor">
+                                <div class="container">
+                                    <div class="card-title white-text">
+                                        <input type="text" id="block-title" name="blog-title" value="{{block.title}}">
+                                    </div>
+                                    <div class="card-content white-text">
+                                        <textarea id="block-content" id="block-content" class="materialize-textarea">{{block.content}}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <button class="btn waves-effect waves-light navcolor right" id="update-btn" type="submit" name="action">
+                            Update
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="sidebar">
+            <div class="container sidepage" ondrop="drop(event)" ondragover="allowDrop(event)" id="unmerged_block_container">
+                <div class="plus-btn">
+                    <a href="#" class="waves-effect waves-light btn navcolor btn-floating btn-large">
+                        <i class="material-icons large">add</i>
+                    </a>
+                </div>
+                <br>
+                Also here . . .
+                {% for block in unmerged_block %}
+                <div class="card navcolor"  draggable="true" ondragstart="drag(event)" id={{block.id}}>
+                    <div class="container">
+                        <div class="card-title white-text">
+                            <input type="text" id="block-title" name="blog-title" value="{{block.title}}">
+                        </div>
+                        <div class="card-content white-text">
+                            <textarea id="block-content" id="block-content" class="materialize-textarea">{{block.content}}</textarea>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>    
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        $('document').ready(function(){
+        })
+        function allowDrop(ev) {
+            ev.preventDefault();
+            console.log(ev.target.id);
+        }
+
+        function drag(ev) {
+            ev.dataTransfer.setData("id", ev.target.id);
+        }
+
+        function drop(ev) {
+            ev.preventDefault();
+            var data = ev.dataTransfer.getData("id");
+            ev.target.appendChild(document.getElementById(data));
+        }
+    </script>
 </body>
 </html>

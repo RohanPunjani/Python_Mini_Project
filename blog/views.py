@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import blog
 from django.contrib.auth.models import User, auth
 # Create your views here.
@@ -7,16 +7,42 @@ from django.contrib.auth.models import User, auth
 def index(request):
     if(request.user.is_authenticated):
         user = request.user
-        blogs = user.blog_set.all()
-        return render(request, 'blog.html', {'blogs': blogs})
+        published = user.blog_set.filter(isPublished=True)
+        drafts = user.blog_set.filter(isPublished=False)
+        return render(request, 'blog.html', {
+            "drafts": drafts,
+            "published": published,
+        })
     else:
-        return render(request, 'blog.html', {'blogs': None})
+        return render(request, 'blog.html', {'blog': None})
 
 
-def blog_view(request, id):
-    if(request.user.is_authenticated):
-        user = request.user
-        blog = user.blog_set.get(id=id)
-        return render(request, 'content.html', {'blog': blog})
-    else:
-        return render(request, 'content.html', {'blog': None})
+def edit_blog(request, id):
+    if (not request.user.is_authenticated):
+        return redirect('')
+    user = request.user
+    blog = user.blog_set.get(id=id)
+    merged_block = blog.block_set.filter(isMerged=True)
+    unmerged_block = blog.block_set.filter(isMerged=False)
+    return render(request, 'content.html',
+                  {
+                      'blog': blog,
+                      'merged_block': merged_block,
+                      'unmerged_block': unmerged_block
+                  }
+                  )
+
+
+def delete_blog(request, id):
+    if (not request.user.is_authenticated):
+        return redirect('/')
+    user = request.user
+    blog = user.blog_set.get(id=id)
+    blog.delete()
+    return redirect('/')
+
+
+def create_blog(request):
+    if (not request.user.is_authenticated):
+        return redirect('')
+    user = request.user
