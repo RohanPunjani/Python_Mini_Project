@@ -7,8 +7,8 @@ from django.contrib.auth.models import User, auth
 def index(request):
     if(request.user.is_authenticated):
         user = request.user
-        published = user.blog_set.filter(isPublished=True)
-        drafts = user.blog_set.filter(isPublished=False)
+        published = user.blog_set.filter(isPublished=True).order_by('-id')
+        drafts = user.blog_set.filter(isPublished=False).order_by('-id')
         return render(request, 'blog.html', {
             "drafts": drafts,
             "published": published,
@@ -42,7 +42,19 @@ def delete_blog(request, id):
     return redirect('/')
 
 
-def create_blog(request):
+def create_blog(request, heading):
     if (not request.user.is_authenticated):
         return redirect('')
     user = request.user
+    blog = user.blog_set.create(heading=heading)
+    print(blog.id)
+    # return render(request, "./edit/{{blog.id}}")
+    return redirect('/')
+
+
+def publish_blog(request, id):
+    if (not request.user.is_authenticated):
+        return redirect('/')
+    user = request.user
+    user.blog_set.filter(id=id).update(isPublished=True)
+    return redirect('/')

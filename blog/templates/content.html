@@ -14,65 +14,52 @@
             margin: 0;
             padding: 0;
         }
-
         html,
         body {
             height: 100vh;
         }
-
         .nav {
             background-color: #3a415e;
         }
-
         .nav .row {
             margin-bottom: 0;
         }
-
         .blog_container {
             background: #e5dffa;
             min-height: 100vh;
         }
-
         h1 {
             margin: 0;
             padding: 2.8rem;
         }
-
         #search_text {
             background: #ecfbfc;
             border-radius: 5px;
             color: black;
             text-indent: 40px;
         }
-
         .tabs,
         .tab {
             height: 64px;
         }
-
         ::placeholder {
             color: #949595;
             opacity: 1;
         }
-
         .card {
             box-shadow: none;
             border-radius: 5px;
         }
-
         .card-content {
             display: flex;
             align-items: center;
         }
-
         .card .card-action a:not(.btn):not(.btn-large):not(.btn-small):not(.btn-large):not(.btn-floating) {
             color: #5938e3;
         }
-
         .card .card-action a:not(.btn):not(.btn-large):not(.btn-small):not(.btn-large):not(.btn-floating):hover {
             color: #1f2064;
         }
-
         .mainpage{
             display: flex;
         }
@@ -80,7 +67,6 @@
             background: #E5DFFA;
             width: 80vw;
         }
-
         .page{
             background: #fff;
             min-height: 100vh;
@@ -161,12 +147,10 @@
                 <div class="container"><a href="/" class="waves-effect waves-light back-btn">
                     <i class="material-icons medium">chevron_left</i>
                 </a>
-                <button class="btn waves-effect waves-light right navcolor publish-btn" type="submit" name="publish">Publish</button>
+                <a href="publish/{{blog.id}}" class="btn waves-effect waves-light right navcolor publish-btn" name="publish">Publish</a>
                 </div>
                 <div class="container page">
-                    <div class="container"> 
-                        <input type="text" id="blog-heading" name="blog-heading" value="{{blog.heading}}">
-                    </div>
+                    <h1>{{ blog.heading }}</h1>
                     <div class="container" ondrop="drop(event)" ondragover="allowDrop(event)" id="merged_block_container">
                         Allow Drop
                         {% for block in merged_block %}
@@ -194,27 +178,42 @@
                     <a href="#" class="waves-effect waves-light btn navcolor btn-floating btn-large">
                         <i class="material-icons large">add</i>
                     </a>
+                   <!-- Modal Trigger -->
+                   <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Modal Default</a>
+                   
+                   <!-- Modal Structure -->
+                   <div id="modal1" class="modal">
+                        <div class="modal-content">
+                            <h4>Modal Header</h4>
+                            <p>A bunch of text</p>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Create</a>
+                        </div>
+                   </div>
                 </div>
                 <br>
                 Also here . . .
                 {% for block in unmerged_block %}
-                <div class="card navcolor"  draggable="true" ondragstart="drag(event)" id={{block.id}}>
-                    <div class="container">
-                        <div class="card-title white-text">
-                            <input type="text" id="block-title" name="blog-title" value="{{block.title}}">
-                        </div>
-                        <div class="card-content white-text">
-                            <textarea id="block-content" id="block-content" class="materialize-textarea">{{block.content}}</textarea>
+                    <div class="card navcolor"  draggable="true" ondragstart="drag(event)" id={{block.id}}>
+                        <div class="container">
+                            <div class="card-title white-text">
+                                <input type="text" id="block-title" name="blog-title" value="{{block.title}}">
+                            </div>
+                            <div class="card-content white-text">
+                                <textarea id="block-content" id="block-content" class="materialize-textarea">{{block.content}}</textarea>
+                            </div>
                         </div>
                     </div>
-                </div>
                 {% endfor %}
             </div>    
         </div>
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
     <script>
         $('document').ready(function(){
+            console.log($('#merged_block_container').children("card").length);
+            $('#modal1').modal();
         })
         function allowDrop(ev) {
             ev.preventDefault();

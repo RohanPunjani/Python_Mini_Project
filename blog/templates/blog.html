@@ -118,16 +118,19 @@
         <div class="blog_container">
             <div id="test1" class="blog_container col s12">
                 <h1>
-                    Drafts : 
-                    <div id="modal1" class="modal modal-fixed">
-                      <div class="modal-content">
-                        <h4>Please enter the Heading of your new Blog</h4>
-                        <input type="text" id="heading" value="" name="heading" placeholder="Enter heading">
-                      </div>
-                      <div class="modal-footer">
-                        <a href="#!" class=" modal-action modal-close waves-effect waves-red btn-flat">Disagree</a>
-                        <button onclick="console.log('heading');" class=" modal-action modal-close waves-effect waves-green btn-flat">Create</button>
-                      </div>
+                    Drafts :
+                    <div id="modal1" class="modal">
+                        <div class="modal-content">
+                            <h4>Please enter the Heading of your new Blog</h4>
+                            <form name="new_blog">
+                                <input type="text" id="heading" value="" name="heading" placeholder="Enter heading">
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button onclick="create();" class=" modal-action modal-close waves-effect waves-green btn-flat">
+                                Create
+                            </button>
+                        </div>
                     </div>
                     <a href="#modal1" class="waves-effect waves-light btn  modal-trigger right navcolor">Add New Blog</a>
                 </h1>
@@ -213,8 +216,10 @@
         })
         function create()
         {
-            var heading = document.getElementById('id').text();
-            console.log(heading);
+            var heading = new_blog.heading.value;
+            var url = "create/" + heading;
+            console.log("going to ",url);
+            window.location.href = "create/"+ heading;
         }
     </script>
 </body>
