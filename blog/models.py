@@ -14,7 +14,7 @@ class blog(models.Model):
 
 class block(models.Model):
     blog = models.ForeignKey(blog, on_delete=models.CASCADE)
-    position = models.IntegerField()
+    position = models.IntegerField(default=0)
     title = models.CharField(max_length=50)
     content = models.TextField()
     isMerged = models.BooleanField(default=False)

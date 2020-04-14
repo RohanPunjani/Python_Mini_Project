@@ -80,15 +80,6 @@
             font-size: 4rem;
             height: 15vh;
         }
-        #block-title{
-            color: white;
-            font-size: 3rem;
-            height: 10vh;
-        }
-        #block-content{
-            color: white;
-            font-size: 1.5rem;
-        }
         #update-btn, .publish-btn{
             margin: 2rem;
             position: relative;
@@ -151,57 +142,85 @@
                 </div>
                 <div class="container page">
                     <h1>{{ blog.heading }}</h1>
-                    <div class="container" ondrop="drop(event)" ondragover="allowDrop(event)" id="merged_block_container">
-                        Allow Drop
+                    <div class="container" ondrop="drop(event, 1, {{blog.id}})" ondragover="allowDrop(event)" id="merged_block_container">
+                        Allow Drop . . .
                         {% for block in merged_block %}
-                            <div class="card navcolor">
+                            <div class="card" draggable="true" ondragstart="drag(event)" id={{block.id}}>
                                 <div class="container">
-                                    <div class="card-title white-text">
-                                        <input type="text" id="block-title" name="blog-title" value="{{block.title}}">
+                                    <div class="card-title">
+                                        <h4>{{ block.title }}</h4>
                                     </div>
-                                    <div class="card-content white-text">
-                                        <textarea id="block-content" id="block-content" class="materialize-textarea">{{block.content}}</textarea>
+                                    <div class="card-content">
+                                        <p>{{block.content}}</p>
                                     </div>
                                 </div>
                             </div>
                         {% endfor %}
-                        <button class="btn waves-effect waves-light navcolor right" id="update-btn" type="submit" name="action">
-                            Update
-                        </button>
                     </div>
                 </div>
             </form>
         </div>
         <div class="sidebar">
-            <div class="container sidepage" ondrop="drop(event)" ondragover="allowDrop(event)" id="unmerged_block_container">
+            <div class="container sidepage" ondrop="drop(event, 0, {{blog.id}})" ondragover="allowDrop(event)" id="unmerged_block_container">
                 <div class="plus-btn">
-                    <a href="#" class="waves-effect waves-light btn navcolor btn-floating btn-large">
+                    <a href="#modal1" class="waves-effect waves-light btn navcolor modal-trigger btn-floating btn-large">
                         <i class="material-icons large">add</i>
                     </a>
-                   <!-- Modal Trigger -->
-                   <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Modal Default</a>
-                   
-                   <!-- Modal Structure -->
                    <div id="modal1" class="modal">
-                        <div class="modal-content">
-                            <h4>Modal Header</h4>
-                            <p>A bunch of text</p>
-                        </div>
+                       <form name="newblock">
+                            <div class="modal-content">
+                                <h4>Please Fill out the following details :)</h4>
+                                <p>
+                                    Block Title
+                                    <input type="text" id="block_title" name="blog_title" value="" placeholder="E.g: Introduction, Content, . . .">
+                                </p>
+                                <textarea id="block_content" name="block_content" class="materialize-textarea"
+                                    placeholder="Start writing from here :)"></textarea>
+
+                            </div>
+                       </form>
                         <div class="modal-footer">
-                            <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Create</a>
+                            <a onclick="new_block({{ blog.id }})" class=" modal-action modal-close waves-effect waves-green btn-flat">Create</a>
                         </div>
                    </div>
                 </div>
                 <br>
                 Also here . . .
                 {% for block in unmerged_block %}
-                    <div class="card navcolor"  draggable="true" ondragstart="drag(event)" id={{block.id}}>
+                    <div class="card"  draggable="true" ondragstart="drag(event)" id={{block.id}}>
                         <div class="container">
-                            <div class="card-title white-text">
-                                <input type="text" id="block-title" name="blog-title" value="{{block.title}}">
+                            <div class="card-title">
+                                <h4>{{ block.title }}</h4>
                             </div>
-                            <div class="card-content white-text">
-                                <textarea id="block-content" id="block-content" class="materialize-textarea">{{block.content}}</textarea>
+                            <div class="card-content">
+                                <p>{{block.content}}</p>
+                            </div>
+                            <div class="card-action row">
+                                <a href="#modal2" class="waves-effect waves-light btn navcolor modal-trigger col s6">
+                                    <i class="material-icons">edit</i>
+                                </a>
+                                <div id="modal2" class="modal">
+                                    <form name="editblock">
+                                        <div class="modal-content">
+                                            <h4>Update details</h4>
+                                            <p>
+                                                Block Title
+                                                <input type="text" id="block_title" name="blog_title" value="{{block.title}}"
+                                                    placeholder="E.g: Introduction, Content, . . .">
+                                            </p>
+                                            <textarea id="block_content" name="block_content" class="materialize-textarea"
+                                                placeholder="Start writing from here :)">{{block.content}}</textarea>
+                                    
+                                        </div>
+                                    </form>
+                                    <div class="modal-footer">
+                                        <a onclick="updateblock({{blog.id}}, {{block.id}})" class=" modal-action modal-close waves-effect waves-green btn-flat">Update</a>
+                                    </div>
+                                </div>
+
+                                <a onclick="deleteBlock({{blog.id}}, {{block.id}})" class="waves-effect waves-light btn navcolor col s6">
+                                    <i class="material-icons">delete</i>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -212,8 +231,8 @@
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
     <script>
         $('document').ready(function(){
-            console.log($('#merged_block_container').children("card").length);
             $('#modal1').modal();
+            $('#modal2').modal();
         })
         function allowDrop(ev) {
             ev.preventDefault();
@@ -224,10 +243,40 @@
             ev.dataTransfer.setData("id", ev.target.id);
         }
 
-        function drop(ev) {
+        function drop(ev, type, blogID) {
             ev.preventDefault();
             var data = ev.dataTransfer.getData("id");
             ev.target.appendChild(document.getElementById(data));
+            if(type==0){
+                //unmerged
+                var url = '../update/' + blogID + '/block/' + data + "/False";
+            }
+            else{
+                //merged
+                var url = '../update/' + blogID + '/block/' + data + "/True";
+            }
+            window.location.href = url;
+        }
+
+        function new_block(id){
+            var title = newblock.block_title.value;
+            var content = newblock.block_content.value;
+            var url = "../create/block/" + id + "/" + title + "/" + content;
+            window.location.href=url;
+        }
+
+        function updateblock(blogid, blockid){
+            var title = editblock.block_title.value;
+            var content = editblock.block_content.value;
+            console.log(blogid)
+            url = "../update/" + blogid + "/block/" + blockid + "/" + title + "/" + content;
+            window.location.href = url;
+        }
+
+        function deleteBlock(blogid, blockid){
+            console.log("i was called");
+            url = "../delete/" + blogid + "/block/" + blockid;
+            window.location.href = url;
         }
     </script>
 </body>
