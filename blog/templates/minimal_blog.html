@@ -1,0 +1,68 @@
+{% load static %}
+<img src="{% static 'IMG.png' %}" alt="My image">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bloggit</title>
+    <style>
+
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        nav{
+            display: flex;
+            justify-content: space-between;
+            font-size: 3vh;
+            font-family: fantasy;
+            align-items: center;
+        }
+        li{
+            list-style-type: none;
+            padding: 3vh;
+        }
+        .Account{
+            display: flex;
+        }
+        .container{
+            width: 90%;
+            margin: auto;
+        }
+        .sect1{
+            display: flex;
+            height: 60vh;
+            width: 100vw;
+            justify-content: center;
+            align-items: center;
+        }
+        .tagline{
+            font-family: fantasy;
+            font-size: 5vh;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <li>Bloggit</li>
+        <ul class="Account">
+            <li>
+                Login
+            </li>
+            <li>
+                Register
+            </li>
+        </ul>
+    </nav>
+    <section class="sect1">
+        <div class="tagline">
+            “If you can't describe your idea in a sentence,
+            it isn't worthwhile.”
+        </div>
+        <img src="" alt="">
+    </section>
+    <section class="sect2"></section>
+</body>
+</html>

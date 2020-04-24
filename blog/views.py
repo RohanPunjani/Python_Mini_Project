@@ -9,12 +9,12 @@ def index(request):
         user = request.user
         published = user.blog_set.filter(isPublished=True).order_by('-id')
         drafts = user.blog_set.filter(isPublished=False).order_by('-id')
-        return render(request, 'blog.html', {
+        return render(request, 'minimal_blog.html', {
             "drafts": drafts,
             "published": published,
         })
     else:
-        return render(request, 'blog.html', {'blog': None})
+        return render(request, 'minimal_blog.html', {'blog': None})
 
 
 def edit_blog(request, id):
