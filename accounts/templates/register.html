@@ -1,98 +1,98 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register Form</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <title>Register</title>
     <style>
-        body{
-            background: url('https://pvrinstitute.org/media/4319/abstract-background.jpg?width=1100');
-            background-size: cover;
-            background-attachment: fixed;
-            color: white;
-            font-family: fantasy;
-        }
-        .black-layer{
-            position: absolute;
-            height: 100vh;
-            width: 100vw;
-            background: rgba(0,0,0,0.6);
-            z-index: -1;
-        }
-        .message{
-            padding: 5px;
-            border-radius: 5px;
+         *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
         }
         .container{
+            height: 100vh;
             width: 100vw;
-            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-        .register-form-container{
-            margin: 50px 0;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.8);
-            transition: all 0.2s ease-in-out;
+        .register_block{
+            min-height: 50vh;
+            padding: 50px;
+            width: 400px;
         }
-        .register-form-container:hover{
-            transform: scale(1.05, 1.05);
+        img{
+            height: 15vh;
+            width: 100%;
+        }
+        .register_block form input{
+            width: 100%;
+            height: 2vh;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            font-size: 2vh;
+            padding: 3vh;
+            border: 0;
+            border-bottom: 1px solid grey;
+            margin: 0 0 2vh 0;
+        }
+        .register_btn{
+            width: 100%;
+            font-size: 3vh;
+            padding: 1.5vh 0;
+            color: white;
+            background: #000;
+            border: 0;
+            cursor: pointer;
+        }
+        input:active{
+            background: white;
+        }
+        input:valid{
+            background: white;
         }
     </style>
 </head>
 <body>
-    <div class="black-layer"></div>
-    <div class="container d-flex justify-content-center align-items-center">
-        <div class="register-form-container col-sm-12 col-md-5 col-ld-4">
-            <h1 align=center>
-                Sign Up Page
-            </h1>
-            <form method="post" action="">
+    <div class="container">
+        <div class="register_block">
+            <form action="" method="POST">
                 {% csrf_token %}
+                <img src="{% static 'images/newUserAvatar.svg' %}" alt="This will be the img">
+                <br>
+                <br>
                 {% if messages %}
                     {% for message in messages %}
-                        <div class="message bg-danger">
+                        <div class="message">
                             Note: {{ message }}
                         </div>
+                        <br>
                     {% endfor %}
                 {% endif %}
-                <div class="form-group">
-                    <label for="username">Username: </label>
-                    <input type="text" id="username" class="form-control" name="username">
-                </div>
-                <div class="row">
-                    <div class="form-group col-sm-6">
-                        <label for="first_name">First Name: </label>
-                        <input type="text" id="first_name" class="form-control" name="first_name">
-                    </div>
-                    <div class="form-group col-sm-6">
-                        <label for="last_name">Last Name: </label>
-                        <input type="text" id="last_name" class="form-control" name="last_name">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email ID: </label>
-                    <input type="email" id="email" class="form-control" name="email">
-                </div>
-                <div class="form-group">
-                    <label for="password1">Enter Password: </label>
-                    <input type="password" id="password1" class="form-control" name="password1">
-                </div>
-                <div class="form-group">
-                    <label for="password2">Confirm Password: </label>
-                    <input type="password" id="password2" class="form-control" name="password2">
-                </div>
+                <input type="text" name="username" placeholder="Username">
                 <br>
-                <div class="row">
-                    <div class="form-group col-sm-6">
-                        <input type="submit" class="form-control btn btn-secondary" value="Submit">
-                    </div>
-                    <div class="form-group col-sm-6">
-                        <input type="reset" class="form-control"value="Reset">
-                    </div>
-                </div>
+                <input type="text" name="first_name" placeholder="First Name">
+                <br>
+                <input type="text" name="last_name" placeholder="Last Name">
+                <br>
+                <input type="email" id="email" placeholder="Email" name="email">
+                <br>
+                <input type="password" name="password1" placeholder="Password">
+                <br>
+                <input type="password" name="password2" placeholder="Confirm Password">
+                <br>
+                <button type="submit" class="register_btn">Register</button>
+                <br>
+                <br>
+                <p style="float:right">
+                    <a href="../login">Already have an account?</a>
+                </p>
+                <br>
+                <p style="float:right">
+                    <a href="../../">Go back?</a>
+                </p>
             </form>
         </div>
     </div>

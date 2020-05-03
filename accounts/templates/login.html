@@ -1,93 +1,95 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
-
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Register Form</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-        <style>
-            .register-form-container {
-                padding: 20px;
-                border-radius: 20px;
-            }
-
-            body {
-                background: url('https://pvrinstitute.org/media/4319/abstract-background.jpg?width=1100');
-                background-size: cover;
-                background-attachment: fixed;
-                color: white;
-                font-family: fantasy;
-            }
-
-            .black-layer {
-                position: absolute;
-                height: 100vh;
-                width: 100vw;
-                background: rgba(0, 0, 0, 0.6);
-                z-index: -1;
-            }
-
-            .message {
-                padding: 5px;
-                margin: 5px;
-                border-radius: 5px;
-            }
-            .container{
-                height: 100vh;
-                width: 100vw;
-            }
-            .login-form-container{
-                margin: 50px 0;
-                padding: 20px;
-                box-shadow: 0 0 10px rgba(0,0,0,0.8);
-                transition: all 0.2s ease-in-out;
-            }
-            .login-form-container:hover{
-                transform: scale(1.05, 1.05);
-            }
-        </style>
-    </head>
-
-    <body>
-        <div class="black-layer"></div>
-        <div class="container d-flex justify-content-center align-items-center">
-                <div class="login-form-container col-sm-10 col-md-4 col-ld-6">
-                    <form method="post" action="">
-                        {% csrf_token %}
-                        <h1 align=center>
-                            Log In Page
-                        </h1>
-                        {% if messages %}
-                            {% for message in messages %}
-                                <div class="message bg-danger">
-                                    Note: {{ message }}
-                                </div>
-                            {% endfor %}
-                        {% endif %}
-                        <div class="form-group">
-                            <label for="username">Username: </label>
-                            <input type="text" id="username" class="form-control" name="username">
-                        </div>
-                        <div class="form-group">
-                            <label for="password1">Password: </label>
-                            <input type="password" id="password1" class="form-control" name="password">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+        .container{
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .login-block{
+            min-height: 50vh;
+            padding: 50px;
+        }
+        img{
+            height: 15vh;
+            width: 100%;
+        }
+        .login-block form input{
+            width: 100%;
+            height: 3vh;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            font-size: 3vh;
+            padding: 2vh;
+            border: 0;
+            border-bottom: 1px solid grey;
+            margin: 0 0 4vh 0;
+        }
+        .login_btn{
+            width: 100%;
+            font-size: 3vh;
+            padding: 1.5vh 0;
+            color: white;
+            background: #000;
+            border: 0;
+            cursor: pointer;
+        }
+        input:active{
+            background: white;
+        }
+        input:valid{
+            background: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="login-block">
+            <form action="" method="POST">
+                {% csrf_token %}
+                <img src="{% static 'images/avatar.svg' %}" alt="This will be the img">
+                <br>
+                <br>
+                
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="message">
+                            Note: {{ message }}
                         </div>
                         <br>
-                        <div class="row">
-                            <div class="form-group col-sm-6">
-                                <input type="submit" class="form-control btn btn-secondary" value="Submit" name="submit">
-                            </div>
-                            <div class="form-group col-sm-6">
-                                <input type="reset" class="form-control" value="Reset" name="reset">
-                            </div>
-                        </div>
-                    </form>
-                </div>
-        </div>
-    </body>
+                    {% endfor %}
+                {% endif %}
 
+                <input type="text" name="username" placeholder="Username">
+                <br>
+                <input type="password" name="password" placeholder="Password">
+                <br>
+                <button type="submit" class="login_btn">Login</button>
+                <br>
+                <br>
+                <p style="float:right">
+                    <a href="../register">Don't have an account?</a>
+                </p>
+                <br>
+                <p style="float:right">
+                    <a href="../../">Go back?</a>
+                </p>
+                <br>
+                <br>
+            </form>
+        </div>
+    </div>
+</body>
 </html>

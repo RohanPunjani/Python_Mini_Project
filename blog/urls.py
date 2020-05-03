@@ -18,7 +18,3 @@ urlpatterns = [
          views.delete_block, name='delete_block'),
     path('edit/publish/<int:id>', views.publish_blog, name='publish_blog'),
 ]
-
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL,
-                          document_root=settings.MEDIA_ROOT)

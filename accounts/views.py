@@ -15,7 +15,6 @@ def register(request):
         if password1 == password2:
             if User.objects.filter(username=username).exists():
                 messages.info(request, 'Username Already Taken')
-                # print('Username already Taken')
                 return redirect('register')
             elif User.objects.filter(email=email).exists():
                 messages.info(request, 'Email Already Exists')
