@@ -9,7 +9,7 @@ def index(request):
         user = request.user
         published = user.blog_set.filter(isPublished=True).order_by('-id')
         drafts = user.blog_set.filter(isPublished=False).order_by('-id')
-        return render(request, 'blog.html', {
+        return render(request, 'userhome.html', {
             "drafts": drafts,
             "published": published,
         })

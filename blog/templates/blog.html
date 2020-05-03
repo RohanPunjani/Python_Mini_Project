@@ -18,13 +18,13 @@
             height: 100vh;
         }
         .nav{
-            background-color: #3a415e;
+            background-color: black;
         }
         .nav .row{
             margin-bottom: 0;
         }
         .blog_container{
-            background: #e5dffa;
+            background: white;
             min-height: 100vh;
         }
         h1{
@@ -68,7 +68,7 @@
         }
         .navcolor{
             color: white;
-            background-color: #3a415e;
+            background-color: black;
         }
         .indicator{
             display: none;
@@ -203,12 +203,12 @@
          $(document).ready(function () {
             $('.tabs').tabs();
             $('#modal1').modal();
-            $('.active').parent().css("background", "#e5dffa");
+            $('.active').parent().css("background", "white");
              $('.active').css("color", "black");
         });
         $('.tab').click(function(){
             $('.tab').css("background","transparent");
-            $(this).css("background","#e5dffa");
+            $(this).css("background","white");
         });
         $('.tab a').click( function(){
             $('.tab a').css("color", "white");
