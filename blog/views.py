@@ -6,15 +6,24 @@ from django.contrib.auth.models import User, auth
 
 def index(request):
     if(request.user.is_authenticated):
-        user = request.user
-        published = user.blog_set.filter(isPublished=True).order_by('-id')
-        drafts = user.blog_set.filter(isPublished=False).order_by('-id')
+        feeds = blog.objects.filter(isPublished=True).order_by('-id')
         return render(request, 'userhome.html', {
-            "drafts": drafts,
-            "published": published,
+            "feeds": feeds,
         })
     else:
-        return render(request, 'minimal_blog.html', {'blog': None})
+        return render(request, 'minimal_blog.html', {})
+
+
+def drafts(request):
+    if(request.user.is_authenticated):
+        user = request.user
+        drafts = user.blog_set.filter(isPublished=False).order_by('-id')
+        return render(request, 'drafts.html', {
+            'drafted_feeds': drafts,
+        })
+    else:
+        return render(request, 'minimal_blog.html', {})
+
 
 
 def edit_blog(request, id):

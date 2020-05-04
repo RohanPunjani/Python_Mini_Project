@@ -100,7 +100,7 @@
         .sect2 p, .sect3 p{
             padding: 5vh;
             font-weight: 100;
-            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            font-family: 'Lucida Sans',  sans-serif;
             font-size: 2rem;
         }
         @keyframes scroll {
@@ -127,6 +127,32 @@
             background: #000;
             color: white;
             text-decoration: none;
+        }
+
+        @media only screen and (max-width: 600px) {
+            .sect2, .sect3{
+                position: absolute;
+                top: 100vh;
+                display: block;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                width: 100vw;
+                padding: 5vh;
+            }
+            
+            .sect3{
+                position: absolute;
+                top: 200vh;
+                height: 100vh;
+            }
+            
+            .sect2 img{
+                height: 25vh;
+            }
+            .sect3 img{
+                display: none;
+            }
         }
     </style>
 </head>
