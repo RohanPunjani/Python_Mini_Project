@@ -1,5 +1,5 @@
 # Python_Mini_Project
 
-Progress Uptil Now . . .
+Manage your thoughts more efficiently using BLOGGIT
 
-![image](https://user-images.githubusercontent.com/48467821/78605151-aa7dc800-7878-11ea-90ea-c9ae3b04f8be.png)
+![image](https://user-images.githubusercontent.com/48467821/80920645-c2207180-8d8e-11ea-929c-66dd66d6a9a5.png)
