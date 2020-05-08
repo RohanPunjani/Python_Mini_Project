@@ -34,24 +34,27 @@
         
     {% for feed in feeds %}
         <div class="feed">
-            <div class="feed_heading">
-                <h1>{{feed.heading}}</h1>
-            </div>
-            <div class="feed_content">
-                {% for block in feed.block_set.all %}
-                    <h4>{{block.title}}</h4>
-                    <p>{{block.content}}</p>
-                    <br>
-                {% endfor %}
-            </div>
-            <div class="feed_footer">
-                <div class="post_author_name" style="display: flex;justify-content: center; align-items: center;">
-                    <h3>{{feed.user.first_name}} {{feed.user.last_name}}</h3>
+            <div class="feed_main">
+                <div class="feed_heading">
+                    <h1>{{feed.heading}}</h1>
                 </div>
-                <a class="button">
-                    <i class="far fa-eye"></i> View Blog
-                </a>
+                <div class="feed_content">
+                    {% for block in feed.block_set.all %}
+                        <h4>{{block.title}}</h4>
+                        <p>{{block.content}}</p>
+                        <br>
+                    {% endfor %}
+                </div>
+                <div class="feed_footer">
+                    <div class="post_author_name" style="display: flex;justify-content: center; align-items: center;">
+                        <h3>{{feed.user.first_name}} {{feed.user.last_name}}</h3>
+                    </div>
+                    <a class="button">
+                        <i class="far fa-eye"></i> View Blog
+                    </a>
+                </div>
             </div>
+            <img src="{% static feed.cover_img.url %}" height="300" alt="Blog Image" class="feed_img">
         </div>
     {% endfor %}
     </div>
