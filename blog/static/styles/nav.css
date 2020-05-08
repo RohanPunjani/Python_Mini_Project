@@ -34,7 +34,7 @@ li a{
 .bar{
     width: 18px;
     height: 3px;
-    background: #c51263;
+    background: #029e74;
     margin: 3px 0;
 }
 .bar1{
@@ -47,7 +47,7 @@ li a{
     width: 6px;
 }
 .black_nav{
-    background: #c51263;
+    background: #029e74;
     height: 100vh;
     width: 100vw;
     position: fixed;
@@ -56,7 +56,7 @@ li a{
     z-index: 10;
 }
 .inner_nav{
-    background: #c51263;
+    background: #029e74;
     color: white;
 }
 .inner_nav li a{

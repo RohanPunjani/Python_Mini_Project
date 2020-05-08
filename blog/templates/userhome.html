@@ -15,7 +15,7 @@
     <div class="black_nav">
         <div class="main_black_nav">
             <li><a href="/drafts">Drafts</a></li>
-            <li><a href="#">Published</a></li>
+            <li><a href="/published">Published</a></li>
             <li><a href="#">Search</a></li>
             <li><a href="#">Contact</a></li>
             <li><a href="/accounts/logout">Logout</a></li>
@@ -46,7 +46,6 @@
             </div>
             <div class="feed_footer">
                 <div class="post_author_name" style="display: flex;justify-content: center; align-items: center;">
-                    <img src="{% static 'images/avatar.svg' %}">
                     <h3>{{feed.user.first_name}} {{feed.user.last_name}}</h3>
                 </div>
                 <a class="button">

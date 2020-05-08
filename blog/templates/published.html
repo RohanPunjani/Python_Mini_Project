@@ -23,7 +23,7 @@
         </nav>
         <div class="main_black_nav">
                 <li><a href="../">Home</a></li>
-                <li><a href="../published">Published</a></li>
+                <li><a href="../drafts">Drafts</a></li>
                 <li><a href="#">Search</a></li>
                 <li><a href="#">Contact</a></li>
                 <li><a href="/accounts/logout">Logout</a></li>
@@ -40,7 +40,7 @@
 
     <div class="feed_container">
         
-        {% for feed in drafted_feeds %}
+        {% for feed in published_feeds %}
             <div class="feed">
                 <div class="feed_heading">
                     <h1>{{feed.heading}}</h1>
@@ -53,16 +53,12 @@
                     {% endfor %}
                 </div>
                 <div class="feed_footer">
-                    <div class="post_author_name" style="display: flex;justify-content: center; align-items: center;">
+                    <div class="post_author">
                         <h3>{{feed.user.first_name}} {{feed.user.last_name}}</h3>
                     </div>
                     <div class="btn-container">
-                        
-                        <a class="button" href="edit/{{feed.id}}">
-                            <i class="far fa-edit"></i> Edit
-                        </a>
-                        <a class="button" href="delete/{{feed.id}}">
-                            <i class="fa fa-trash"></i> Delete
+                        <a class="button" href="../unpublish/{{feed.id}}">
+                            <i class="fa fa-undo"></i> UnPublish
                         </a>
                     </div>
                 </div>

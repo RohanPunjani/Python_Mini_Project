@@ -6,6 +6,7 @@ from . import views
 urlpatterns = [
     path('', views.index, name='index'),
     path('drafts', views.drafts, name='drafts'),
+    path('published', views.published, name='published'),
     path('edit/<int:id>', views.edit_blog, name='edit_blog'),
     path('create/<str:heading>', views.create_blog, name='create_blog'),
     path('create/block/<int:id>/<str:title>/<str:content>',
@@ -18,4 +19,5 @@ urlpatterns = [
     path('delete/<int:id>/block/<int:blockid>',
          views.delete_block, name='delete_block'),
     path('edit/publish/<int:id>', views.publish_blog, name='publish_blog'),
+    path('unpublish/<int:id>', views.unpublish_blog, name='unpublish_blog'),
 ]

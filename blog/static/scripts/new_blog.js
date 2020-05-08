@@ -16,7 +16,7 @@ $('document').ready(function(){
     })
     
     $('.white_layer').click(function(){
-        $('.add_btn').attr("state","ham");
+        $('.add_btn').attr("state","plus");
         $('.white_layer').fadeOut()
         $('.floating_btn_container').css("transform","rotateZ(0deg)")
     })

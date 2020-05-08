@@ -31,6 +31,18 @@ def drafts(request):
 
 
 
+def published(request):
+    if(request.user.is_authenticated):
+        user = request.user
+        published = user.blog_set.filter(isPublished=True).order_by('-id')
+        return render(request, 'published.html', {
+            'published_feeds': published,
+        })
+    else:
+        return redirect('/')
+
+
+
 def edit_blog(request, id):
     if (not request.user.is_authenticated):
         return redirect('')
@@ -70,6 +82,13 @@ def publish_blog(request, id):
     user = request.user
     user.blog_set.filter(id=id).update(isPublished=True)
     return redirect('/')
+
+def unpublish_blog(request, id):
+    if (not request.user.is_authenticated):
+        return redirect('/')
+    user = request.user
+    user.blog_set.filter(id=id).update(isPublished=False)
+    return redirect('/published')
 
 
 def create_block(request, id, title, content):
