@@ -48,13 +48,20 @@
                 <div class="feed_footer">
                     <div class="post_author_name" style="display: flex;justify-content: center; align-items: center;">
                         <h3>{{feed.user.first_name}} {{feed.user.last_name}}</h3>
+                        &nbsp;
+                        &nbsp;
+                        &nbsp;
+                        &nbsp;
+                        <p>{{feed.updated_at.date}}</p>
                     </div>
                     <a class="button">
                         <i class="far fa-eye"></i> View Blog
                     </a>
                 </div>
             </div>
-            <img src="{% static feed.cover_img.url %}" height="300" alt="Blog Image" class="feed_img">
+            <div class="feed_img">
+                <img src="{{feed.cover_img.url}}" height="300" alt="Blog Image">
+            </div>
         </div>
     {% endfor %}
     </div>

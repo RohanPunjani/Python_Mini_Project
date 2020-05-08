@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 class blog(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     heading = models.CharField(max_length=100)
-    cover_img = models.ImageField(upload_to='blog_covers/', default='images/img3.svg')
+    cover_img = models.ImageField(upload_to='blog_covers/%y/%m/%d', default='blog_covers/img5.jpg')
     isPublished = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
