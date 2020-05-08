@@ -18,7 +18,6 @@ nav{
     width: 100vw;
     position: fixed;
     z-index: 99;
-    transition: all 0.5s ease-in-out;
 }
 li{
     list-style-type: none;

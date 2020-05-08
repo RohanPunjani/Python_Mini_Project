@@ -6,14 +6,9 @@ from django.contrib.auth.models import User, auth
 
 def index(request):
     if(request.user.is_authenticated):
-        feeds = blog.objects.filter(isPublished=True).order_by('-id')
-        user = request.user
-        drafts = user.blog_set.filter(isPublished=False).order_by('-id')
-        published = user.blog_set.filter(isPublished=True).order_by('-id')
+        feeds = blog.objects.filter(isPublished=True).order_by('?')
         return render(request, 'userhome.html', {
             "feeds": feeds,
-            "drafts":drafts,
-            "published":published,
         })
     else:
         return render(request, 'minimal_blog.html', {})
@@ -29,7 +24,13 @@ def drafts(request):
     else:
         return redirect('/')
 
-
+def view_blog(request, id):
+    if(not request.user.is_authenticated):
+        return redirect('/')
+    feed = blog.objects.get(pk=id)
+    feed.views = feed.views + 1
+    feed.save()
+    return render(request, 'view.html', {"feed" : feed})
 
 def published(request):
     if(request.user.is_authenticated):

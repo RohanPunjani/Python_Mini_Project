@@ -9,6 +9,23 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'styles/nav.css' %}">
     <link rel="stylesheet" href="{% static 'styles/feed.css' %}">
+    <style>
+        .view_main{
+            min-height: 100vh;
+            position: absolute;
+            width: 100vw;
+            background: rgb(42, 185, 147) none repeat scroll 0% 0%;;
+            padding: 5vh 10vw;
+            z-index: 110;
+            left: 0;
+            top: 0;
+            font-family: Times, 'Times New Roman', sans-serif;
+        }
+        .view_feed_container{
+            background: white;
+            box-shadow: rgba(0,0,0,.3) .4rem .7rem 9.3rem .3rem;
+            padding: 5vh;
+        }</style>
 </head>
 <body>
     
@@ -32,43 +49,39 @@
 
     <div class="feed_container">
         
-    {% for feed in feeds %}
-        <div class="feed">
-            <div class="feed_main">
-                <div class="feed_heading">
-                    <h1>{{feed.heading}}</h1>
-                </div>
-                <div class="feed_content">
-                    {% for block in feed.block_set.all %}
-                        <h4>{{block.title}}</h4>
-                        <p>{{block.content}}</p>
-                        <br>
-                    {% endfor %}
-                </div>
-                <div class="feed_footer">
-                    <div class="post_author_name" style="display: flex;justify-content: center; align-items: center;">
-                        <h3>{{feed.user.first_name}} {{feed.user.last_name}}</h3>
-                        &nbsp;
-                        &nbsp;
-                        &nbsp;
-                        &nbsp;
-                        <p>{{feed.updated_at.date}}</p>
+        {% for feed in feeds %}
+            <div class="feed">
+                <div class="feed_main">
+                    <div class="feed_heading">
+                        <h1>{{feed.heading}}</h1>
                     </div>
-                    <a class="button">
-                        <i class="far fa-eye"></i> View Blog
-                    </a>
+                    <div class="feed_content">
+                        {% for block in feed.block_set.all %}
+                            <h4>{{block.title}}</h4>
+                            <p>{{block.content}}</p>
+                            <br>
+                        {% endfor %}
+                    </div>
+                    <div class="feed_footer">
+                        <div class="post_author_name" style="display: flex;justify-content: center; align-items: center;">
+                            <h3>{{feed.user.first_name}} {{feed.user.last_name}}</h3>
+                            &nbsp;
+                            &nbsp;
+                            <p>{{feed.updated_at.date}}</p>
+                        </div>
+                        <a class="button view_btn" href="view/{{feed.id}}">
+                            <i class="far fa-eye"></i> View Blog | {{feed.views}}
+                        </a>
+                    </div>
+                </div>
+                <div class="feed_img">
+                    <img src="{{feed.cover_img.url}}" height="300" alt="Blog Image">
                 </div>
             </div>
-            <div class="feed_img">
-                <img src="{{feed.cover_img.url}}" height="300" alt="Blog Image">
-            </div>
-        </div>
-    {% endfor %}
+        {% endfor %}
     </div>
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="{% static 'scripts/nav.js' %}">
-    </script>
-
+    <script src="{% static 'scripts/nav.js' %}"></script>
 </body>
 </html>

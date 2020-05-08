@@ -53,6 +53,21 @@
         input:valid{
             background: white;
         }
+        
+        .button{
+            padding: 18px 32px;
+            font-size: 16pt;
+            text-decoration: none;
+            background: #029e74;
+            color: white;
+            border: 2px solid #029e74;
+            transition: all 0.4s cubic-bezier(.47,0,.74,.71);
+            cursor: pointer;
+        }
+        .button:hover{
+            color: #029e74;
+            background: white;
+        }
     </style>
 </head>
 <body>
@@ -83,7 +98,7 @@
                 <br>
                 <input type="password" name="password2" placeholder="Confirm Password">
                 <br>
-                <button type="submit" class="register_btn">Register</button>
+                <button type="submit" class="register_btn button">Register</button>
                 <br>
                 <br>
                 <p style="float:right">

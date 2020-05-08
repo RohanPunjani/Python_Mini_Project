@@ -21,14 +21,14 @@
         nav{
             display: flex;
             font-size: 3vh;
-            font-family: fantasy;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
             position: absolute;
             width: 100vw;
             z-index: 99;
         }
         li{
             list-style-type: none;
-            padding: 3vh;
+            padding: 3vh 3vw 0 0;
         }
         li a{
             color: black;
@@ -49,22 +49,23 @@
             width: 100vw;
             justify-content: center;
             background: url(https://wallpaperaccess.com/full/863607.png);
+            background-attachment: fixed;
             background-size: cover;
             align-items: center;
         }
         .tagline{
-            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-            font-size: 5vh;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 4rem;
             padding: 3rem;
         }
         .backface_font{
-            position: absolute;
-            font-size: 30vw;
+            position: fixed;
+            font-size: 25vw;
             width: 100vw;
             overflow: hidden;
             font-family: fantasy;
             font-weight: 900;
-            left: -10vw;
+            left: -20vw;
             top: -10vh;
             z-index: 0;
             color: rgba(0,0,0,0.04);
@@ -91,6 +92,7 @@
             justify-content: center;
             align-items: center;
             height: 70vh;
+            background: white;
             width: 100vw;
             padding: 5vh;
         }
@@ -100,7 +102,7 @@
         .sect2 p, .sect3 p{
             padding: 5vh;
             font-weight: 100;
-            font-family: 'Lucida Sans',  sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
             font-size: 2rem;
         }
         @keyframes scroll {
@@ -154,11 +156,36 @@
                 display: none;
             }
         }
+                
+        .button{
+            padding: 18px 32px;
+            font-size: 16pt;
+            text-decoration: none;
+            background: #029e74;
+            color: white;
+            border: 2px solid #029e74;
+            transition: all 0.4s cubic-bezier(.47,0,.74,.71);
+            cursor: pointer;
+        }
+        .button:hover{
+            color: #029e74;
+            background: white;
+        }
+        .logo
+        {
+            color: #029e74;
+            font-weight: 900;
+            padding: 3vh 3vw 0 3vw;
+            font-family: Tahoma;
+        }
+        .green{
+            color: #029e74;
+        }
     </style>
 </head>
 <body>
     <nav>
-        <li><a href="#">Bloggit</a></li>
+        <li><a href="#" class="logo">Bloggit</a></li>
         <ul class="Account">
             <li>
                 <a href="/accounts/login">Login</a>
@@ -170,7 +197,7 @@
     </nav>
     <div class="backface_font">Bloggit</div>
     <section class="sect1"><div class="tagline">
-        “A personal and effective thought manager!”
+        “A personal and effective <span class="green">thought manager!</span>”
     </div>
         <a href="#sect2" class="scroll_indicator"></a>
     </section>
@@ -179,19 +206,18 @@
         <p>
             Write all the stuffs you want!
             <br>
-            Select only those which <big>you</big> think is worthy to be in your blog :)
+            Select only those which <span class="green">you</span> think is worthy to be in your blog :)
         </p>
     </section>
     <section class="sect3" id="sect3">
         <p>
-            Save for yourself / Publish it for the whole world
-            <br>
+            Save for yourself / Publish it for the whole world, 
             It's purely your choice
             <br>
-            We trust you!
+            We <span class="green">trust</span> you
             <br>
             <br>
-            <a href="/accounts/register" class="get_started_cta">Get Started</a>
+            <a href="/accounts/register" class="button">Get Started</a>
             <br>
             <br><br>
         </p>

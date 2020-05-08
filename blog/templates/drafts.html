@@ -9,6 +9,19 @@
     <link rel="stylesheet" href="{% static 'styles/nav.css' %}">
     <link rel="stylesheet" href="{% static 'styles/feed.css' %}">
     <link rel="stylesheet" href="{% static 'styles/new_blog.css' %}">
+    <style>
+        .empty_container{
+            height: 80vh;
+            width: 100vw;
+            color: green;
+            font-size: 3rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 5vw;
+            font-family: Helvetica;
+        }
+    </style>
 </head>
 <body>
     <div class="white_layer"></div>
@@ -37,39 +50,55 @@
             <div class="bar bar3"></div>
         </li>
     </nav>
-
-    <div class="feed_container">
-        
-        {% for feed in drafted_feeds %}
-            <div class="feed">
-                <div class="feed_heading">
-                    <h1>{{feed.heading}}</h1>
-                </div>
-                <div class="feed_content">
-                    {% for block in feed.block_set.all %}
-                        <h4>{{block.title}}</h4>
-                        <p>{{block.content}}</p>
-                        <br>
-                    {% endfor %}
-                </div>
-                <div class="feed_footer">
-                    <div class="post_author_name" style="display: flex;justify-content: center; align-items: center;">
-                        <h3>{{feed.user.first_name}} {{feed.user.last_name}}</h3>
+    {% if drafted_feeds %}
+        <div class="feed_container">
+            {% for feed in drafted_feeds %}
+                <div class="feed">
+                    
+                    <div class="feed_img">
+                        <img src="{{feed.cover_img.url}}" height="300" alt="Blog Image">
                     </div>
-                    <div class="btn-container">
-                        
-                        <a class="button" href="edit/{{feed.id}}">
-                            <i class="far fa-edit"></i> Edit
-                        </a>
-                        <a class="button" href="delete/{{feed.id}}">
-                            <i class="fa fa-trash"></i> Delete
-                        </a>
+                    <div class="feed_main">
+                        <div class="feed_heading">
+                            <h1>{{feed.heading}}</h1>
+                        </div>
+                        <div class="feed_content">
+                            {% for block in feed.block_set.all %}
+                                <h4>{{block.title}}</h4>
+                                <p>{{block.content}}</p>
+                                <br>
+                            {% endfor %}
+                        </div>
+                        <div class="feed_footer">
+                            <div class="post_author_name" style="display: flex;justify-content: center; align-items: center;">
+                                <h3>{{feed.user.first_name}} {{feed.user.last_name}}</h3>
+                                &nbsp;
+                                &nbsp;
+                                &nbsp;
+                                &nbsp;
+                                <p>{{feed.updated_at.date}}</p>
+                            </div>
+                            <div class="btn-container">
+                                
+                                <a class="button" href="edit/{{feed.id}}">
+                                    <i class="far fa-edit"></i> Edit
+                                </a>
+                                <a class="button" href="delete/{{feed.id}}">
+                                    <i class="fa fa-trash"></i> Delete
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        
-        {% endfor %}
-    </div>
+            {% endfor %}
+        </div>     
+    {% else %}
+        <div class="empty_container">
+            <h1>
+                Feels like you dont have any blogs in the drafts, try creating one now :)
+            </h1>
+        </div>
+    {% endif %}
 
     <div class="floating_btn_container">
         <a class="button round add_btn" state="plus">
@@ -77,6 +106,11 @@
         </a>    
     </div>
 
+
+    <form method="post" action="">
+        
+    </form>
+    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="{% static 'scripts/nav.js' %}"></script>
     <script src="{% static 'scripts/new_blog.js' %}"></script>
