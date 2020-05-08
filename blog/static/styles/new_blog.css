@@ -1,0 +1,30 @@
+.white_layer
+{
+    z-index: 100;
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    background: rgba(255,255,255,0.9);
+    display: none;
+}
+.round{
+    border-radius: 50%;
+}
+.add_btn{
+    margin-left: 0;
+    padding: 18pt 22pt;
+    box-shadow: 0 0 10px grey;
+    font-size: 28pt;
+}
+.add_btn:hover{
+    background: #c51263;
+    box-shadow: 0 0 10px black;
+    color: white;
+}
+.floating_btn_container{
+    position: fixed;
+    right: 5vw;
+    z-index: 101;
+    bottom: 5vw;
+    transition: all 0.3s ease;
+}

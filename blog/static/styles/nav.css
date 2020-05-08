@@ -16,6 +16,7 @@ nav{
     font-family: fantasy;
     justify-content: space-between;
     width: 100vw;
+    position: fixed;
     z-index: 99;
     transition: all 0.5s ease-in-out;
 }
@@ -33,7 +34,7 @@ li a{
 .bar{
     width: 18px;
     height: 3px;
-    background: #000;
+    background: #c51263;
     margin: 3px 0;
 }
 .bar1{
@@ -46,7 +47,7 @@ li a{
     width: 6px;
 }
 .black_nav{
-    background: #000;
+    background: #c51263;
     height: 100vh;
     width: 100vw;
     position: fixed;
@@ -55,7 +56,7 @@ li a{
     z-index: 10;
 }
 .inner_nav{
-    background: #000;
+    background: #c51263;
     color: white;
 }
 .inner_nav li a{
@@ -69,7 +70,7 @@ li a{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: 80vh;
+    min-height: 90vh;
     color: white;
     font-family: "Lucida Console", Courier, monospace;
     font-size: 4vh;

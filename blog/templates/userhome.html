@@ -5,63 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{request.user.first_name}} {{request.user.last_name}}</title>
-    
+    <script src="https://kit.fontawesome.com/0e20ce3410.js" crossorigin="anonymous"></script>
     {% load static %}
     <link rel="stylesheet" href="{% static 'styles/nav.css' %}">
-    <style>
-    .feed_container{
-        min-height: 100vh;
-        width: 100vw;
-        padding: 5vh 10vw;
-    }
-    .feed{
-        height: 50vh;
-        background: #f1f1f1;
-        width: 80vw;
-        margin: 0 0 10vh 0;
-        overflow: hidden;
-    }
-    .feed .feed_heading{
-        padding: 3vh 5vh;
-        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    }
-    .feed .feed_content{
-        margin: 0 5vh;
-        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-        overflow: hidden;
-        height: 30vh;
-        padding: 2vh 5vh;
-        background: white;
-    }
-    .feed .feed_footer{
-        margin: 2vh 5vh;
-        display: flex;
-        align-items: center;
-        justify-content: safe;
-        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    }
-    .feed .feed_footer img{
-        height: 4vh;
-    }
-    </style>
+    <link rel="stylesheet" href="{% static 'styles/feed.css' %}">
 </head>
 <body>
     
     <div class="black_nav">
-        <nav class="inner_nav">
-            <li><a href="#">Bloggit</a></li>
-            <li class="burger" state="ham">
-                <div class="bar bar1"></div>
-                <div class="bar bar2"></div>
-                <div class="bar bar3"></div>
-            </li>
-        </nav>
         <div class="main_black_nav">
-                <li><a href="/drafts">Drafts</a></li>
-                <li><a href="#">Published</a></li>
-                <li><a href="#">Search</a></li>
-                <li><a href="#">Contact</a></li>
-                <li><a href="/accounts/logout">Logout</a></li>
+            <li><a href="/drafts">Drafts</a></li>
+            <li><a href="#">Published</a></li>
+            <li><a href="#">Search</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="/accounts/logout">Logout</a></li>
         </div>
     </div>
     <nav class="outer_nav">
@@ -88,32 +45,20 @@
                 {% endfor %}
             </div>
             <div class="feed_footer">
-                <img src="{% static 'images/avatar.svg' %}"><h3>{{feed.user.first_name}} {{feed.user.last_name}}</h3>
+                <div class="post_author_name" style="display: flex;justify-content: center; align-items: center;">
+                    <img src="{% static 'images/avatar.svg' %}">
+                    <h3>{{feed.user.first_name}} {{feed.user.last_name}}</h3>
+                </div>
+                <a class="button">
+                    <i class="far fa-eye"></i> View Blog
+                </a>
             </div>
         </div>
     {% endfor %}
     </div>
-
+    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script>
-        $('document').ready(function(){
-            $('.burger').click(function(){
-                if($('.burger').attr("state") == "ham")
-                {
-                    $('.burger').attr("state","cross");
-                    $('.black_nav').fadeIn()
-                }
-                else if($('.burger').attr("state") == "cross")
-                {
-                    $('.burger').attr("state","ham");
-                    $('.black_nav').fadeOut()
-                }
-            })
-            $('.black_nav').click(function(){
-                $('.burger').attr("state","ham");
-                $('.black_nav').fadeOut()
-            })
-        })
+    <script src="{% static 'scripts/nav.js' %}">
     </script>
 
 </body>

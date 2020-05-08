@@ -7,8 +7,13 @@ from django.contrib.auth.models import User, auth
 def index(request):
     if(request.user.is_authenticated):
         feeds = blog.objects.filter(isPublished=True).order_by('-id')
+        user = request.user
+        drafts = user.blog_set.filter(isPublished=False).order_by('-id')
+        published = user.blog_set.filter(isPublished=True).order_by('-id')
         return render(request, 'userhome.html', {
             "feeds": feeds,
+            "drafts":drafts,
+            "published":published,
         })
     else:
         return render(request, 'minimal_blog.html', {})
@@ -22,7 +27,7 @@ def drafts(request):
             'drafted_feeds': drafts,
         })
     else:
-        return render(request, 'minimal_blog.html', {})
+        return redirect('/')
 
 
 
@@ -39,7 +44,7 @@ def edit_blog(request, id):
                       'merged_block': merged_block,
                       'unmerged_block': unmerged_block
                   }
-                  )
+                )
 
 
 def delete_blog(request, id):
@@ -48,7 +53,7 @@ def delete_blog(request, id):
     user = request.user
     blog = user.blog_set.get(id=id)
     blog.delete()
-    return redirect('/')
+    return redirect('/drafts')
 
 
 def create_blog(request, heading):
@@ -72,6 +77,7 @@ def create_block(request, id, title, content):
         return redirect('/')
     user = request.user
     blog = user.blog_set.get(id=id)
+    content = content.replace('\n', '<br>')
     blog.block_set.create(title=title, content=content)
     url = '/edit/'+str(id)
     return redirect(url)
@@ -94,6 +100,7 @@ def update_block(request, blogId, id, isMerged):
 def update_block_content(request, blogId, id, title, content):
     if (not request.user.is_authenticated):
         return redirect('/')
+    content = content.replace('\n', '<br>')
     user = request.user
     user.blog_set.get(id=blogId).block_set.filter(
         id=id).update(title=title, content=content)

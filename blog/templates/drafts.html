@@ -3,12 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/0e20ce3410.js" crossorigin="anonymous"></script>
     <title>Drafts</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'styles/nav.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/feed.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/new_blog.css' %}">
 </head>
 <body>
-    
+    <div class="white_layer"></div>
     <div class="black_nav">
         <nav class="inner_nav">
             <li><a href="../">Bloggit</a></li>
@@ -36,35 +39,48 @@
     </nav>
 
     <div class="feed_container">
-        <div class="feed">
-            {% for feed in drafted_feeds %}
-                {{feed}}
-            {% endfor %}
-        </div>
+        
+        {% for feed in drafted_feeds %}
+            <div class="feed">
+                <div class="feed_heading">
+                    <h1>{{feed.heading}}</h1>
+                </div>
+                <div class="feed_content">
+                    {% for block in feed.block_set.all %}
+                        <h4>{{block.title}}</h4>
+                        <p>{{block.content}}</p>
+                        <br>
+                    {% endfor %}
+                </div>
+                <div class="feed_footer">
+                    <div class="post_author_name" style="display: flex;justify-content: center; align-items: center;">
+                        <img src="{% static 'images/avatar.svg' %}">
+                        <h3>{{feed.user.first_name}} {{feed.user.last_name}}</h3>
+                    </div>
+                    <div class="btn-container">
+                        
+                        <a class="button" href="edit/{{feed.id}}">
+                            <i class="far fa-edit"></i> Edit
+                        </a>
+                        <a class="button" href="delete/{{feed.id}}">
+                            <i class="fa fa-trash"></i> Delete
+                        </a>
+                    </div>
+                </div>
+            </div>
+        
+        {% endfor %}
+    </div>
+
+    <div class="floating_btn_container">
+        <a class="button round add_btn" state="plus">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+        </a>    
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script>
-        $('document').ready(function(){
-            $('.burger').click(function(){
-                if($('.burger').attr("state") == "ham")
-                {
-                    $('.burger').attr("state","cross");
-                    $('.black_nav').fadeIn()
-                }
-                else if($('.burger').attr("state") == "cross")
-                {
-                    $('.burger').attr("state","ham");
-                    $('.black_nav').fadeOut()
-                }
-            })
-            $('.black_nav').click(function(){
-                $('.burger').attr("state","ham");
-                $('.black_nav').fadeOut()
-            })
-        })
-    </script>
-
+    <script src="{% static 'scripts/nav.js' %}"></script>
+    <script src="{% static 'scripts/new_blog.js' %}"></script>
     
 </body>
 </html>
