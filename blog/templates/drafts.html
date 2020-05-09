@@ -10,6 +10,11 @@
     <link rel="stylesheet" href="{% static 'styles/feed.css' %}">
     <link rel="stylesheet" href="{% static 'styles/new_blog.css' %}">
     <style>
+        .btn_container .button{
+            margin-left: 20px;
+        }
+    </style>
+    <style>
         .empty_container{
             height: 80vh;
             width: 100vw;
@@ -78,7 +83,7 @@
                                 &nbsp;
                                 <p>{{feed.updated_at.date}}</p>
                             </div>
-                            <div class="btn-container">
+                            <div class="btn_container">
                                 
                                 <a class="button" href="edit/{{feed.id}}">
                                     <i class="far fa-edit"></i> Edit
@@ -106,10 +111,21 @@
         </a>    
     </div>
 
+    <div class="form_container" style="display: none;">
+        <form class="new_blog" method="post" action="" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="title">Title:</label><br>
+            <input type="text" id="title" placeholder="Eg: The Solitaire" name="title" required>
+            <br><br><br>
+            <input type="file" style="display: none;" name="cover_img" id="upload_image" required>
+            <div class="button" id="upload_trigger">
+                <i class="fas fa-upload"></i>Upload a cover image
+            </div>
 
-    <form method="post" action="">
-        
-    </form>
+                <br><br><br>
+            <button class="button right submit_btn" type="submit">Submit</button>
+        </form>
+    </div>
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="{% static 'scripts/nav.js' %}"></script>

@@ -41,7 +41,12 @@
     <div class="feed_container">
         
         {% for feed in published_feeds %}
-            <div class="feed">
+         <div class="feed">
+                    
+            <div class="feed_img">
+                <img src="{{feed.cover_img.url}}" height="300" alt="Blog Image">
+            </div>
+            <div class="feed_main">
                 <div class="feed_heading">
                     <h1>{{feed.heading}}</h1>
                 </div>
@@ -53,26 +58,24 @@
                     {% endfor %}
                 </div>
                 <div class="feed_footer">
-                    <div class="post_author">
+                    <div class="post_author_name" style="display: flex;justify-content: center; align-items: center;">
                         <h3>{{feed.user.first_name}} {{feed.user.last_name}}</h3>
+                        &nbsp;
+                        &nbsp;
+                        &nbsp;
+                        &nbsp;
+                        <p>{{feed.updated_at.date}}</p>
                     </div>
                     <div class="btn-container">
                         <a class="button" href="../unpublish/{{feed.id}}">
-                            <i class="fa fa-undo"></i> UnPublish
+                            <i class="fa fa-undo"></i> Send to Drafts
                         </a>
                     </div>
                 </div>
             </div>
-        
+        </div>
         {% endfor %}
     </div>
-
-    <div class="floating_btn_container">
-        <a class="button round add_btn" state="plus">
-            <i class="fa fa-plus" aria-hidden="true"></i>
-        </a>    
-    </div>
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="{% static 'scripts/nav.js' %}"></script>
     <script src="{% static 'scripts/new_blog.js' %}"></script>

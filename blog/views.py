@@ -17,6 +17,10 @@ def index(request):
 def drafts(request):
     if(request.user.is_authenticated):
         user = request.user
+        if request.method == 'POST':
+            cover_img = request.FILES['cover_img']
+            title = request.POST['title']
+            blog = user.blog_set.create(heading=title, cover_img=cover_img)
         drafts = user.blog_set.filter(isPublished=False).order_by('-id')
         return render(request, 'drafts.html', {
             'drafted_feeds': drafts,

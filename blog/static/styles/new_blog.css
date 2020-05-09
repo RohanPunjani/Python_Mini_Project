@@ -1,10 +1,11 @@
 .white_layer
 {
-    z-index: 100;
+    z-index: 30;
     position: fixed;
     height: 100vh;
     width: 100vw;
-    background: rgba(255,255,255,0.9);
+    background:#ffffff;
+    opacity: 0.7;
     display: none;
 }
 .round{
@@ -27,4 +28,51 @@
     z-index: 101;
     bottom: 5vw;
     transition: all 0.3s ease;
+}
+
+.form_container{
+    position: fixed;
+    z-index: 50;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 20vh;
+    left: 20vw;
+}
+.new_blog{
+    z-index: 50;
+    min-height: 40vh;
+    width: 60vw;
+    background: white;
+    box-shadow: 0 0 10px;
+    top: 0;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    padding: 5vh;
+}
+
+label{
+    font-size: 2rem;
+}
+input[type="text"]{
+    line-height: 4rem;
+    font-size: 2rem;
+    width: 90%;
+    border: 0;
+    border-bottom: 2px solid green;
+}
+#upload_trigger {
+  /* padding: 18px 32px;
+  background: #029e74;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 1.5rem;
+  width: 30%; */
+}
+
+#upload_trigger:hover {
+  background: #029e74;
+  cursor: pointer;
+}
+.right{
+  float: right;
 }
