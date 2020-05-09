@@ -23,7 +23,7 @@
     width: 50vw;
 }
 .feed_img{
-    height: 30vh;
+    height: 20vh;
     width: 15vw;
     overflow: hidden;
     text-align: center;
@@ -57,6 +57,7 @@
     display: -webkit-box;
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
+    /* display: none; */
 }
 .feed .feed_main .feed_content p{
     font-family: Helvetica;

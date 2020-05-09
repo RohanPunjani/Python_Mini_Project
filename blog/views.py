@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from .models import blog
 from django.contrib.auth.models import User, auth
 # Create your views here.
