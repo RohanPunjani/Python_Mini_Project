@@ -1,96 +1,75 @@
-.feed_container{
-    min-height: 100vh;
-    width: 100vw;
-    padding: 10vh 10vw;
-    /* float: left; */
-}
 .feed{
-    max-height: 40vh;
-    background: white;
-    width: 80vw;
     overflow: hidden;
-    float: left;
-    padding: 0vh 2.5vw;
-    /* border: 2px solid #029e74; */
-    margin: 2vh 0;
-    display: flex;
-    justify-content: space-around;
-    align-items:center;
-}
-
-
-.feed_main{
-    width: 50vw;
+    transition: all 0.2s ease-in-out;
+    border: 0;
+    cursor: pointer;
 }
 .feed_img{
     height: 20vh;
-    width: 15vw;
     overflow: hidden;
-    text-align: center;
-}
+    padding-left: 0;
+    padding-right: 0;
+}   
 .feed_img img{
     height: 100%;
+    width: 100%;
     object-fit: cover;
     margin-left: auto;
     margin-right: auto;
     text-align: center;
 }
-
-.feed .feed_main .feed_heading{
-    padding: 3vh 0;
-    border: 0;
-    font-family: Helvetica;
+h1{
+    font-size: 3vh;
 }
-/* .feed .feed_main .feed_heading h1{
-    color: #029e74;
-} */
-
-.feed .feed_main .feed_content{
-    margin: 0;
-    font-family: Helvetica;
-    overflow: hidden;
-    max-height: 20vh;
-    padding: 0 0 2vh 0;
+ h4{
+    font-size: 2vh;
+}
+ p{
+    font-size: 1.5vh;
+}
+.main{
+    padding: 15vh 5vw;
+}
+.col-md-6{
+    padding:1vh;
+}
+.feed:hover{
     background: white;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    /* display: none; */
+    padding: 0;
+    transform: scale(1.05);
 }
-.feed .feed_main .feed_content p{
-    font-family: Helvetica;
-    background: white;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
+.feed_btns{
+    display: none;
 }
-.feed .feed_main .feed_footer{
-    margin: 2vh 0;
+.feed:hover .feed_btns{
     display: flex;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    justify-content: center;
     align-items: center;
-    justify-content: space-between;
-    font-family: Helvetica;
-    width: inherit - 10vw;
 }
-.feed .feed_main .feed_footer img{
-    height: 4vh;
+.feed_btns a{
+    font-size: 3vh;
+    padding: 5vh;
+    transition: all 0.2s ease-in-out;
 }
-.button{
-    padding: 18px 32px;
-    font-size: 16pt;
-    text-decoration: none;
+.feed_btns a:hover{
+    font-size: 4vh;
+}
+.right{
+    float: right;
+}
+.btn-green{
     background: #029e74;
     color: white;
-    border: 2px solid #029e74;
-    transition: all 0.4s cubic-bezier(.47,0,.74,.71);
-    /* margin-left: 20px; */
-    cursor: pointer;
+    padding: 1vh 1.4vh;
+    font-size: 2vh;
+    text-align: center;
+    text-decoration: none;
 }
-.button:hover{
-    color: #029e74;
-    background: white;
+.btn-green:hover{
+    background: #018663;
+    color: white;
+    text-decoration: none;
 }

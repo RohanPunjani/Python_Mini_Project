@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Blog</title>
+    {% load static %}
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+    crossorigin="anonymous"></script>
+    <script src="{% static 'scripts/bootstrap.min.js' %}"></script>
+    <script src="https://kit.fontawesome.com/0e20ce3410.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'styles/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/nav.css' %}">
+    <style>
+        :root{
+            --font-family-sans-serif: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+            --font-family-monospace: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+        }
+        *{
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+        }
+        body{
+            overflow: initial;
+        }
+        .min-height-40{
+            min-height: 40vh;
+        }
+        h1{
+            font-family: inherit;
+            font-weight: 500;
+            line-height: 1.2;
+            color: #353535;
+            font-size: 2.5rem;
+            margin: .75rem 0;
+        }
+        h6{
+            color: #999;
+            padding-left: .25rem;
+            font-size: 1rem;
+        }
+        h2{
+            font-size: 2rem;
+        }
+        p{
+            font-size: 19px;
+            margin-bottom: 0;
+        }
+        .img_container{
+            overflow: hidden;
+        }
+        .img_container img{
+            max-height: 50vh;
+        }
+        .edit_controller button{
+            margin: 0 5px;
+        }
+        .sticky {
+            position: -webkit-sticky;
+            position: sticky;
+            top: 10vh;
+            z-index:5;
+        }   
+        h3{
+            padding: 20px;
+            background: white;
+        }
+        footer{
+            min-height: 40vh;
+        }
+        .block{
+            transition: all .2s ease-in-out;
+        }
+        .block:hover{
+            transform: scale(1.05);
+            cursor: pointer;
+        }
+        .del_btn{
+            transition: all .2s ease-in-out;
+            text-decoration: none;
+        }
+        .del_btn:hover{
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: inherit;
+        }
+        
+    </style>
+</head>
+<body>
+    
+    <header>
+        <span id="blogID" class="blog_{{feed.id}}"></span>
+        <div class="black_nav">
+            <nav class="inner_nav">
+                <li><a href="../">Bloggit</a></li>
+                <li class="burger" state="ham">
+                    <div class="bar bar1"></div>
+                    <div class="bar bar2"></div>
+                    <div class="bar bar3"></div>
+                </li>
+            </nav>
+            <div class="main_black_nav">
+                <li><a href="../">Home</a></li>
+                <li><a href="../published">Published</a></li>
+                <li><a href="#">Search</a></li>
+                <li><a href="#">Contact</a></li>
+                <li><a href="/accounts/logout">Logout</a></li>
+            </div>
+        </div>
+        <nav class="outer_nav">
+            <li><a href="../">Bloggit</a></li>
+            <li class="burger" state="ham">
+                <div class="bar bar1"></div>
+                <div class="bar bar2"></div>
+                <div class="bar bar3"></div>
+            </li>
+        </nav>
+        <div class="container" id="main">
+            <div id="cover" class="row">
+                <div class="col-md-12">
+                    <img src="{{ feed.cover_img.url }}" class="img-fluid min-height-40 mx-auto d-block" alt="">
+                </div>
+                <div class="col-md-12">
+                    <center>
+                        <h1>{{feed.heading}}</h1>
+                        <h6>{{feed.user.first_name}} {{feed.user.last_name}} | {{ feed.updated_at.date }}</h6>
+                        <br>
+                    </center>
+                    <hr>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <form action="" name="form" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <!-- Edit Buttons  -->
+        <h3 class="sticky container">
+            Edit Blog : 
+            <div class="edit_controller float-right d-flex">
+                <div id="title_btn">
+                    <button class="btn btn-dark" type="button"  data-toggle="modal" data-target="#title_modal"><b><i class="fa fa-header"></i></b></button>
+                </div>
+                <div id="content_btn">
+                    <button class="btn btn-info" type="button"  data-toggle="modal" data-target="#content_modal"><i class="fa fa-paragraph"></i></button>
+                </div>
+                <div id="image_btn">
+                    <button class="btn btn-success" type="button"  data-toggle="modal" data-target="#image_modal"><i class="fas fa-image"></i></button>
+                </div>
+            </div>
+        </h3>
+        <!-- End Edit Buttons -->
+        <!-- ##################################################################################################################################### -->
+        <!-- Main Container -->
+        <div class="container"><br>
+            <!-- Unordered list of blocks -->
+            <ul id="content">
+                {% for block in blocks %}
+                    <!-- Block -->
+                    {% if block.title %}
+                        <li class="block row" id="block_{{block.id}}" data-index='0'>
+                            <p class="handle col-sm-1">
+                                <i class="fa fa-bars"></i>
+                            </p>
+                            <h2 class="col-sm-10 block_child" block-type="title" data-toggle="modal" data-target="#edit_title_modal">
+                                {{block.title}}
+                            </h2>
+                            <a href="../delete/{{feed.id}}/block/{{block.id}}" class="col-sm-1 del_btn">
+                                <i class="fa fa-trash"></i>
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% if block.content %}
+                        <li class="block row" id="block_{{block.id}}" data-index='0'>
+                            <p class="handle col-sm-1">
+                                <i class="fa fa-bars"></i>
+                            </p>
+                            <p class="col-sm-10 block_child" style="white-space: pre-line" block-type="content" data-toggle="modal" data-target="#edit_content_modal">{{block.content}}</p>
+                            <a href="../delete/{{feed.id}}/block/{{block.id}}" class="col-sm-1 del_btn">
+                                <i class="fa fa-trash"></i>
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% if block.image.url != '/media/False' %}    
+                        <li class="block row" id="block_{{block.id}}" data-index='0'>
+                            <p class="handle col-sm-1">
+                                <i class="fa fa-bars"></i>
+                            </p>
+                            <div class="img_container col-sm-10 block_child" block-type="image" data-toggle="modal" data-target="#edit_image_modal">
+                                <img src="{{block.image.url}}" class="img-fluid rounded mx-auto d-block" alt="">
+                            </div>
+                            <a onclick="confirm_delete('../delete/{{feed.id}}/block/{{block.id}}')" class="col-sm-1 del_btn">
+                                <i class="fa fa-trash"></i>
+                            </a>
+                        </li>
+                    {% endif %}
+                    <!-- End Block -->
+                {% endfor %}
+            </ul>
+            <!-- End Unordered List -->
+            <br>
+            <!-- Preview/Publish buttons -->
+            <div class="row container mx-0">
+                <div class="col-sm-0 col-md-8"></div>
+                <div class="col-sm-12 col-md-4">
+                    <div class="row">
+                        <div class="col-sm-6 d-flex justify-content-center">
+                            <a class="btn btn-success text-white" style="font-size: 1.5em;margin: 10px 5px;padding: 18px 32px;line-height: 16px;" data-toggle="modal" data-target="#view_modal">Preview</a>
+                        </div>
+                        <div class="col-sm-6 d-flex justify-content-center">
+                            <a class="btn btn-dark" style="font-size: 1.5em;margin: 10px 5px;padding: 18px 32px;line-height: 16px;" href="publish/{{feed.id}}">Publish</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Preview/Publish buttons -->
+            <br>
+        </div>
+
+        <!-- Modals -->
+        <div id="view_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div id="cover" class="row">
+                            <div class="col-md-12">
+                                <img src="{{ feed.cover_img.url }}" class="img-fluid mx-auto d-block" alt="">
+                            </div>
+                            <div class="col-md-12">
+                                <center>
+                                    <h1>{{feed.heading}}</h1>
+                                    <h6>{{feed.user.first_name}} {{feed.user.last_name}} | {{ feed.updated_at.date }}</h6>
+                                    <br>
+                                </center>
+                                <hr>
+                            </div>
+                        </div>
+                        <div id="content" class="row justify-content-md-center">
+                            {% for block in blocks %}
+                            <div class="col-md-12">
+                                {% if block.title %}
+                                    <h2>{{block.title}}</h2>
+                                {% endif %}
+                                {% if block.image.url != '/media/False' %}
+                                    <div class="img_container">
+                                        <img class="img-fluid rounded mx-auto d-block" src="{{block.image.url}}" alt="">
+                                    </div>
+                                {% endif %}
+                                {% if block.content %}
+                                <p style="white-space: pre-line">{{block.content}}</p>
+                                {% endif %}
+                                <br>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="clear" class="btn btn-outline-dark" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="title_modal">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Add a new heading to your content</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                            <label for="title">Heading: </label>
+                            <input class="form-control" type="text" name="title" placeholder="Eg: Introduction, History, ..." id="title">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-dark">Submit</button>
+                        <button type="clear" class="btn btn-outline-dark" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="content_modal">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Add a new Paragraph :)</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>    
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="my-textarea">Paragraph:</label>
+                            <textarea id="my-textarea" class="form-control" name="content" rows="5" placeholder="Start writing from here"  style="white-space: pre-line"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-dark">Submit</button>
+                        <button type="clear" class="btn btn-outline-dark" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="image_modal">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Select an image of your choice</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>    
+                    <div class="modal-body">
+                        <div class="custom-file">
+                            <input id="image_file" class="custom-file-input" type="file" name="image" onchange="get_filename()">
+                            <label for="image_file" class="custom-file-label" id="label_image_file">Choose an image</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-dark">Submit</button>
+                        <button type="clear" class="btn btn-outline-dark" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Modal -->
+    </form>
+
+
+    <form method="POST" name="update_form">
+        {% csrf_token %}
+
+        <div class="modal fade" id="edit_title_modal">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Edit your heading: </h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <label for="edit_title">Heading: </label>
+                        <input class="form-control" type="text" name="edit_title" placeholder="Eg: Introduction, History, ..." id="edit_title">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-dark">Submit</button>
+                        <button type="clear" class="btn btn-outline-dark" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="edit_content_modal">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Edit your paragraph:</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>    
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="edit_content">Paragraph:</label>
+                            <textarea id="edit_content" class="form-control" name="edit_content" rows="5" placeholder="Start writing from here"  style="white-space: pre-line"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-dark">Submit</button>
+                        <button type="clear" class="btn btn-outline-dark" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="edit_image_modal">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Please select a new image to change this one</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>    
+                    <div class="modal-body">
+                        <div class="custom-file">
+                            <input id="image_file" class="custom-file-input" type="file" name="image" onchange="get_filename()">
+                            <label for="image_file" class="custom-file-label" id="label_image_file">Choose an image</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-dark">Submit</button>
+                        <button type="clear" class="btn btn-outline-dark" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+    <!-- Footer  -->
+    <footer class="bg-dark text-white d-flex justify-content-center align-items-center">
+        <div class="row container">
+            <div class="col-md-4 d-flex justify-content-center" style="padding: 30px;">
+                <div class="wrapper">
+                    <h2 class="text-white bg-dark p-0">Bloggit</h2>
+                    <p>
+                        Bloggit is a blog editor that helps you to write blogs and compile your thoughts without messing with your thought flow.
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-4 d-flex justify-content-center" style="padding: 30px 10px;">
+                <div class="wrapper">
+                    <h2 class="text-white bg-dark p-0">Get Social:</h2>
+                    <p>
+                        <a class="text-white" href="https://www.github.com/rohanpunjani"><i class="fa fa-github"></i>&nbsp;&nbsp;Github</a>
+                    </p>
+                    <p>
+                        <a class="text-white" href="https://www.instagram.com/rohan__punjani/"><i class="fa fa-instagram"></i>&nbsp;&nbsp;Instagram</a>
+                    </p>
+                    <p>
+                        <a class="text-white" href="https://www.linkedin.com/in/rohan-punjani-5175a9163/"><i class="fa fa-linkedin"></i>&nbsp;&nbsp;LinkedIn</a>
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-4 d-flex justify-content-center"  style="padding: 30px 0;">
+                <div class="wrapper">
+                    <h2 class="text-white bg-dark p-0">Contact Us:</h2>
+                    <p>
+                        <a href="mailto:nahorpunjani@gmail.com" class="text-white">Send an email</a> 
+                     </p>
+                    <p>
+                        <a href="tel:+917972733358"  class="text-white">(+91) 79-72-73-3358</a>
+                    </p>
+                </div>
+                
+            </div>
+            <div class="col-md-12 d-flex justify-content-center"  style="padding: 30px 0;">
+                <h6>&copy; Copyright 2020. All rights reserved | Developed by <a href="https://rohan-punjani-portfolio.netlify.app" class="text-white">Rohan Punjani</a></h6>
+            </div>
+        </div>
+
+    </footer>
+      
+
+    <script src="http://SortableJS.github.io/Sortable/Sortable.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script src="{% static 'scripts/nav.js' %}"></script>
+    <script>
+        $('document').ready(function(){
+            elements = $("#content li");
+            for(var i=0;i<elements.length;i++)
+            {
+                elements[i].setAttribute("data-index",i);
+            }
+            content = document.getElementById('content')
+            Sortable.create(content, { 
+                handle: '.handle', // handle's class
+                animation: 200,
+                onEnd: function (/**Event*/evt) {
+                    var itemEl = evt.item;  // dragged HTMLElement
+                    old_index = evt.oldDraggableIndex;
+                    new_index = evt.newDraggableIndex;
+                    // $(itemEl).attr('data-index',new_index)
+                    elements = $("#content li")
+                    if(old_index > new_index)
+                    {
+                        for(var i=old_index;i>new_index;i--)
+                        {
+                            k = i-1
+                            $e = $("#content li[data-index="+k+"]");
+                            $e.attr('data-index',i)
+                            // $("#content li[data-index="+i+"]").attr('data-index',i+1)
+                        }
+                        $(itemEl).attr('data-index',new_index)
+                    }
+                    else if(new_index > old_index)
+                    {
+                        for(var i=old_index;i<new_index;i++)
+                        {
+                            k = i+1
+                            $e = $("#content li[data-index="+k+"]");
+                            $e.attr('data-index',i)
+                        }
+                        $(itemEl).attr('data-index',new_index)
+                    }
+                    updatePosition()
+                },
+            });
+            $('.block_child').click(function(){
+                block_type = $(this).attr('block-type'); //title, content, image
+                block_id = $(this).parent().attr('id').substr(6); // 52,34,21, ...
+                block_child_value = '';
+                block_position = $(this).parent().attr('data-index'); // 0,1,2,3,4, ...
+                modal_id = 'edit_' + block_type + '_modal'; // edit_title_modal, edit_content_modal, edit_image_modal
+                selector = '#' + modal_id + ' .modal-body';
+                if(block_type!='image')
+                { // BLa bla bla
+                    if(block_type == 'title')
+                    {
+                        block_child_value = $(this).text().replace(/\s+/g,' ').trim();;
+                        selector += ' #edit_title';
+                    }
+                    else
+                    {
+                        block_child_value = $(this).text();
+                        selector += ' .form-group #edit_content';
+                    }
+                } 
+                else block_child_value = $(this).children('img').attr("src").substr(30); // img5.jpg
+                $(selector).val(block_child_value);
+                console.log(selector)
+                // $('#'+ modal_id).modal('show')
+            })
+        })
+        function updatePosition()
+        {
+            blog_id = $('#blogID').attr('class').substr(5);
+            elements = $('#content li')
+            data = [];
+            for(i=0;i<elements.length;i++){
+                blockid=$('#content li[data-index='+ i +']').attr("id").substr(6);
+                data[i]={
+                    'block_id': blockid,
+                    'position': i,
+                };
+            }
+            var csrf_token = form.csrfmiddlewaretoken.value; 
+            $.ajax({
+                url: '../update/'+blog_id+'/position',
+                type: "POST",
+                dataType: 'json',
+                data: {
+                    "csrfmiddlewaretoken": csrf_token,
+                    "data[]":JSON.stringify(data)
+                },
+                failure: function(err)
+                {
+                }
+            })
+        }
+        function get_filename(){
+            var image_file = document.getElementById('image_file');
+            $('#label_image_file').text(image_file.files.item(0).name)
+        }
+    </script>
+
+</body>
+</html>
+

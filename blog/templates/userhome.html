@@ -5,27 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{request.user.first_name}} {{request.user.last_name}}</title>
-    <script src="https://kit.fontawesome.com/0e20ce3410.js" crossorigin="anonymous"></script>
     {% load static %}
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+    crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/0e20ce3410.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'styles/bootstrap.css' %}">
+    <script src="{% static 'scripts/bootstrap.min.js' %}"></script>
     <link rel="stylesheet" href="{% static 'styles/nav.css' %}">
     <link rel="stylesheet" href="{% static 'styles/feed.css' %}">
-    <style>
-        .view_main{
-            min-height: 100vh;
-            position: absolute;
-            width: 100vw;
-            background: rgb(42, 185, 147) none repeat scroll 0% 0%;;
-            padding: 5vh 10vw;
-            z-index: 110;
-            left: 0;
-            top: 0;
-            font-family: Times, 'Times New Roman', sans-serif;
-        }
-        .view_feed_container{
-            background: white;
-            box-shadow: rgba(0,0,0,.3) .4rem .7rem 9.3rem .3rem;
-            padding: 5vh;
-        }</style>
 </head>
 <body>
     
@@ -46,41 +33,31 @@
             <div class="bar bar3"></div>
         </li>
     </nav>
-
-    <div class="feed_container">
-        
-        {% for feed in feeds %}
-            <div class="feed">
-                <div class="feed_main">
-                    <div class="feed_heading">
-                        <h1>{{feed.heading}}</h1>
-                    </div>
-                    <div class="feed_content">
-                        {% for block in feed.block_set.all %}
-                            <h4>{{block.title}}</h4>
-                            <p>{{block.content}}</p>
-                            <br>
-                        {% endfor %}
-                    </div>
-                    <div class="feed_footer">
-                        <div class="post_author_name" style="display: flex;justify-content: center; align-items: center;">
-                            <h3>{{feed.user.first_name}} {{feed.user.last_name}}</h3>
-                            &nbsp;
-                            &nbsp;
-                            <p>{{feed.updated_at.date}}</p>
+    <div class="main">
+        <div class="container-fluid">
+            <h1>Home:</h1>
+            <hr>
+            <div class="row">
+                {% for feed in feeds %}
+                <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4">
+                    <div class="card feed" onclick="window.location.href='view/{{feed.id}}'">
+                        <div class="row no-gutters">
+                            <div class="col-md-3 col-sm-12 feed_img">
+                                <img class="card-img-top" src="{{feed.cover_img.url}}" alt="Card image">
+                            </div>
+                            <div class="col-md-9 col-sm-12">
+                                <div class="card-body">
+                                    <h1 class="card-title">{{feed.heading}}</h1>
+                                    <h6 class="card-text">{{feed.user.first_name}} {{feed.user.last_name}} | {{feed.created_at.date}}</h6>
+                                </div>
+                            </div>
                         </div>
-                        <a class="button view_btn" href="view/{{feed.id}}">
-                            <i class="far fa-eye"></i> View Blog | {{feed.views}}
-                        </a>
                     </div>
                 </div>
-                <div class="feed_img">
-                    <img src="{{feed.cover_img.url}}" height="300" alt="Blog Image">
-                </div>
+                {% endfor %}
             </div>
-        {% endfor %}
+        </div>
     </div>
-    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="{% static 'scripts/nav.js' %}"></script>
 </body>

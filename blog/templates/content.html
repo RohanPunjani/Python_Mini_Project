@@ -4,11 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Blog</title>
+    {% load static %}
     <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-        crossorigin="anonymous"></script>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/0e20ce3410.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'styles/bootstrap.css' %}">
+    <script src="{% static 'scripts/bootstrap.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'styles/nav.css' %}">
     <style>
         * {
             margin: 0;
@@ -19,13 +21,14 @@
             height: 100vh;
         }
         .nav {
-            background-color: #3a415e;
+            background-color: white;
+            color: black;
         }
         .nav .row {
             margin-bottom: 0;
         }
         .blog_container {
-            background: #e5dffa;
+            background: #fff;
             min-height: 100vh;
         }
         h1 {
@@ -64,7 +67,7 @@
             display: flex;
         }
         .mainbar{
-            background: #E5DFFA;
+            background: #fff;
             width: 80vw;
         }
         .page{
@@ -88,12 +91,15 @@
             height: auto;
         }
         .navcolor{
+            color: black;
+            background-color: white;
+        }
+        .navcolor:hover{
             color: white;
-            background-color: #3a415e;
         }
         .back-btn{
             font-size: 4rem;
-            color: #3a415e;
+            color: #000;
         }
         .plus-btn{
             display: flex;
@@ -142,11 +148,11 @@
                 </div>
                 <div class="container page">
                     <h1>{{ blog.heading }}</h1>
-                    <div class="container" ondrop="drop(event, 1, {{blog.id}})" ondragover="allowDrop(event)" id="merged_block_container">
-                        Allow Drop . . .
+                    <div class="" ondrop="drop(event, 1, {{blog.id}})" ondragover="allowDrop(event)" id="merged_block_container">
+                        <a href="#" class="waves-effect waves-light btn navcolor">dROP</a>
                         {% for block in merged_block %}
-                            <div class="card" draggable="true" ondragstart="drag(event)" id={{block.id}}>
-                                <div class="container">
+                            <li class="card" draggable="true" ondragstart="drag(event)" class="resizable" id={{block.id}}>
+                                <div class="">
                                     <div class="card-title">
                                         <h4>{{ block.title }}</h4>
                                     </div>
@@ -154,7 +160,7 @@
                                         <p>{{block.content}}</p>
                                     </div>
                                 </div>
-                            </div>
+                            </li>
                         {% endfor %}
                     </div>
                 </div>

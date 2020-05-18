@@ -7,6 +7,7 @@ $('document').ready(function(){
             $('.bar').css(
                 "background", "white"
             )
+            $('outer_nav').css("background","#029e74")
             $('.outer_nav li a').css(
                 "color", "white"
             )
@@ -19,6 +20,7 @@ $('document').ready(function(){
             $('.bar').css({
                 "background": "#029e74",
             })
+            $('outer_nav').css("background","white")
             $('.outer_nav li a').css(
                 "color", "black"
             )
@@ -31,9 +33,17 @@ $('document').ready(function(){
         $('.bar').css({
             "background": "#029e74",
         })
+        $('outer_nav').css("background","white")
         $('.outer_nav li a').css(
             "color", "black"
         )
         $('.floating_btn_container').fadeIn()
     })
 })
+
+function confirm_delete(url){
+    res = confirm("Are you sure you want to delete?")
+    if (res){
+        window.location.href = url;
+    }
+}

@@ -4,62 +4,125 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Blog</title>
-    <script src="https://kit.fontawesome.com/0e20ce3410.js" crossorigin="anonymous"></script>
     {% load static %}
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+    crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/0e20ce3410.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'styles/bootstrap.css' %}">
+    <script src="{% static 'scripts/bootstrap.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'styles/nav.css' %}">
     <style>
-        *{
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, Helvetica, sans-serif;
-        }
-        .back_btn{
-            color: white;
-            position: absolute;
-            left: 5vw;
-            top: 5vh;
-            font-size: 4rem;
-        }
-        .back_btn i{
-            border-radius: 50%;
-            box-shadow: rgba(0,0,0,.3) .4rem .7rem 9.3rem .3rem;
-        }
-        .view_main{
-            min-height: 100vh;
-            position: absolute;
-            max-width: 100vw;
-            min-width: 100vw;
-            background: rgb(42, 185, 147) none repeat scroll 0% 0%;;
-            padding: 5vh 10vw;
-            z-index: 110;
-            left: 0;
-            top: 0;
-            font-family: Times, 'Times New Roman', sans-serif;
-        }
-        .view_feed_container{
-            background: white;
-            box-shadow: rgba(0,0,0,.3) .4rem .7rem 9.3rem .3rem;
-            padding: 5vh;
-            min-height: 60vh;
-        }
-        .view_feed{
+        /* .cover_img_container{
+            height: 50vh;
+            width: 50vw;
             overflow: hidden;
         }
-        .view_feed_img{
-            float: left;
-            margin: 0 5vw 5vh 0;
+        .cover_img_container img{
+            height: 100%;
+            width: 100%;
+            object-fit: contain;
+        } */
+        :root{
+            --font-family-sans-serif: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+            --font-family-monospace: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
         }
-        .view_feed_img img{
-            height: 50vh;
-            width: 30vw;
-            object-fit: cover;
+        *{
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+        }
+        .min-height-20{
+            min-height: 20vh;
         }
         h1{
-            font-size: 3rem;
+            font-family: inherit;
+            font-weight: 500;
+            line-height: 1.2;
+            color: #353535;
+            font-size: 2.5rem;
+            margin: .75rem 0;
+        }
+        h6{
+            color: #999;
+            padding-left: .25rem;
+            font-size: 1rem;
+        }
+        h2{
+            font-size: 2rem;
+        }
+        p{
+            font-size: 19px;
+        }
+        .img_container{
+            overflow: hidden;
+            max-height: 60vh;
+        }
+        .img_container img{
+            max-width: 70%;
         }
     </style>
 </head>
 <body>
+    <div class="black_nav">
+        <nav class="inner_nav">
+            <li><a href="../">Bloggit</a></li>
+            <li class="burger" state="ham">
+                <div class="bar bar1"></div>
+                <div class="bar bar2"></div>
+                <div class="bar bar3"></div>
+            </li>
+        </nav>
+        <div class="main_black_nav">
+            <li><a href="../">Home</a></li>
+            <li><a href="../drafts">Drafts</a></li>
+            <li><a href="../published">Published</a></li>
+            <li><a href="#">Search</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="/accounts/logout">Logout</a></li>
+        </div>
+    </div>
+    <nav class="outer_nav">
+        <li><a href="../">Bloggit</a></li>
+        <li class="burger" state="ham">
+            <div class="bar bar1"></div>
+            <div class="bar bar2"></div>
+            <div class="bar bar3"></div>
+        </li>
+    </nav>
+    <div class="container">
+        <div id="cover" class="row">
+            <div class="col-md-12">
+                <img src="{{ feed.cover_img.url }}" class="img-fluid min-height-20 mx-auto d-block" alt="">
+                <br>
+                <center>
+                    <h1>{{feed.heading}}</h1>
+                    <h6>{{feed.user.first_name}} {{feed.user.last_name}} | {{ feed.updated_at.date }}</h6>
+                    <br>
+                </center>
+                <hr>
+            </div>
+        </div>
+        <div id="content" class="row justify-content-md-center">
+            {% for block in blocks %}
+            <div class="col-md-12">
+                {% if block.title %}
+                    <h2>{{block.title}}</h2>
+                {% endif %}
+                {% if block.image.url != '/media/False' %}
+                    <div class="img_container">
+                        <img class="img-fluid rounded mx-auto d-block" src="{{block.image.url}}" alt="">
+                    </div>
+                {% endif %}
+                {% if block.content %}
+                <p style="white-space: pre-line">{{block.content}}</p>
+                {% endif %}
+                <br>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <footer>
+        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    </footer>
+<!--     
     <div class="view_main" id="{{feed.id}}">
         <a class="back_btn" href="../../">
             <i class="fas fa-angle-left"></i>
@@ -93,25 +156,9 @@
                 </div>
             </div>
         </div>    
-    </div>
+    </div> -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="{% static 'scripts/nav.js' %}"></script>
-    <script>
-        // $('document').ready(function(){
-        //     $('.view_btn').click(function(){
-        //         $id = '#' + $(this).attr('for');
-        //         $($id).fadeIn();
-        //         $('.feed_container').fadeOut()
-        //     })
-        //     $('.view_feed_container').click(function(){
-        //         console.log("clicked");
-        //     })
-        //     $('.view_main').click(function(){
-        //         $(this).fadeOut();
-        //         $('.feed_container').fadeIn()
-        //     })
-        // })
-    </script>
 
 </body>
 </html>

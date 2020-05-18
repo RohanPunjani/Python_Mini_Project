@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/0e20ce3410.js" crossorigin="anonymous"></script>
+    <title>Drafts</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'styles/nav.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/feed.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/new_blog.css' %}">
+    <style>
+        .empty_container{
+            height: 80vh;
+            width: 100vw;
+            color: green;
+            font-size: 3rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 5vw;
+            font-family: Helvetica;
+        }
+    </style>
+</head>
+<body>
+    <div class="white_layer"></div>
+    <div class="black_nav">
+        <nav class="inner_nav">
+            <li><a href="../">Bloggit</a></li>
+            <li class="burger" state="ham">
+                <div class="bar bar1"></div>
+                <div class="bar bar2"></div>
+                <div class="bar bar3"></div>
+            </li>
+        </nav>
+        <div class="main_black_nav">
+                <li><a href="../">Home</a></li>
+                <li><a href="../published">Published</a></li>
+                <li><a href="#">Search</a></li>
+                <li><a href="#">Contact</a></li>
+                <li><a href="/accounts/logout">Logout</a></li>
+        </div>
+    </div>
+    <nav class="outer_nav">
+        <li><a href="../">Bloggit</a></li>
+        <li class="burger" state="ham">
+            <div class="bar bar1"></div>
+            <div class="bar bar2"></div>
+            <div class="bar bar3"></div>
+        </li>
+    </nav>
+    {% if drafted_feeds %}
+        <div class="feed_container">
+            {% for feed in drafted_feeds %}
+                <div class="feed">
+                    
+                    <div class="feed_img">
+                        <img src="{{feed.cover_img.url}}" height="300" alt="Blog Image">
+                    </div>
+                    <div class="feed_main content">
+                        <div class="feed_heading">
+                            <h1>{{feed.heading}}</h1>
+                        </div>
+                        <!-- <div class="feed_content">
+                            {% for block in feed.block_set.all %}
+                                <h4>{{block.title}}</h4>
+                                <p>{{block.content}}</p>
+                                <br>
+                            {% endfor %}
+                        </div> -->
+                        <div class="feed_footer">
+                            <div class="post_author_name" style="display: flex;justify-content: center; align-items: center;">
+                                <h3>{{feed.user.first_name}} {{feed.user.last_name}}</h3>
+                                &nbsp;
+                                &nbsp;
+                                &nbsp;
+                                &nbsp;
+                                <p>{{feed.updated_at.date}}</p>
+                            </div>
+                            <!-- <div class="btn_container">
+                                
+                                <a class="button" href="edit/{{feed.id}}">
+                                    <i class="far fa-edit"></i> Edit
+                                </a>
+                                <a class="button" href="delete/{{feed.id}}">
+                                    <i class="fa fa-trash"></i> Delete
+                                </a>
+                            </div> -->
+                        </div>
+                    </div>
+                    <div class="feed_main btns">
+                        <!-- <div class="feed_content">
+                            {% for block in feed.block_set.all %}
+                                <h4>{{block.title}}</h4>
+                                <p>{{block.content}}</p>
+                                <br>
+                            {% endfor %}
+                        </div> -->
+                        <div class="feed_footer">
+                            <div class="btn_container">
+                                
+                                <a class="button bg_transparent" href="view/{{feed.id}}">
+                                    <i class="far fa-eye"></i>
+                                </a>
+                                <a class="button bg_transparent" href="edit/{{feed.id}}">
+                                    <i class="far fa-edit"></i>
+                                </a>
+                                <a class="button bg_transparent" href="delete/{{feed.id}}">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>     
+    {% else %}
+        <div class="empty_container">
+            <h1>
+                Feels like you dont have any blogs in the drafts, try creating one now :)
+            </h1>
+        </div>
+    {% endif %}
+
+    <div class="floating_btn_container">
+        <a class="button round add_btn" state="plus">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+        </a>    
+    </div>
+
+    <div class="form_container" style="display: none;">
+        <form class="new_blog" method="post" action="" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="title">Title:</label><br>
+            <input type="text" id="title" placeholder="Eg: The Solitaire" name="title" required>
+            <br><br><br>
+            <input type="file" style="display: none;" name="cover_img" id="upload_image" required>
+            <div class="button" id="upload_trigger">
+                <i class="fas fa-upload"></i>Upload a cover image
+            </div>
+
+                <br><br><br>
+            <button class="button right submit_btn" type="submit">Submit</button>
+        </form>
+    </div>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="{% static 'scripts/nav.js' %}"></script>
+    <script src="{% static 'scripts/new_blog.js' %}"></script>
+    
+</body>
+</html>

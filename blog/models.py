@@ -18,8 +18,9 @@ class blog(models.Model):
 class block(models.Model):
     blog = models.ForeignKey(blog, on_delete=models.CASCADE)
     position = models.IntegerField(default=0)
-    title = models.CharField(max_length=50)
-    content = models.TextField()
+    title = models.CharField(max_length=50, blank=True)
+    content = models.TextField(blank=True)
+    image = models.ImageField(upload_to='images/blocks/%y/%m/%d', blank=True, null=True)
     isMerged = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
