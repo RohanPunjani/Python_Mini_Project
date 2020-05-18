@@ -53,30 +53,18 @@ def published(request):
     else:
         return redirect('/')
 
-
-
 def edit_blog(request, id):
     if (not request.user.is_authenticated):
         return redirect('/')
     user = request.user
     blog = user.blog_set.get(id=id)
-    if blog: # if it exists for that user
-        if request.method == "POST":
-            title = request.POST['title']
-            content = request.POST['content']
-            image = request.FILES.get('image',False)
-            length = len(blog.block_set.all())+1
-            b = blog.block_set.create(blog=blog, title=title, content=content, image=image, position=length) # create a new block of that kind :)
-        blocks = blog.block_set.all().order_by('position')
-        return render(request, 'edit.html',
-                    {
-                        'feed': blog,
-                        'blocks': blocks
-                    }
-                    )
-    else:
-        return redirect('/')
-
+    blocks = blog.block_set.all().order_by('position')
+    return render(request, 'edit.html',
+                {
+                    'feed': blog,
+                    'blocks': blocks
+                }
+                )
 
 def delete_blog(request, id):
     if (not request.user.is_authenticated):
@@ -85,7 +73,6 @@ def delete_blog(request, id):
     blog = user.blog_set.get(id=id)
     blog.delete()
     return redirect('/drafts')
-
 
 def publish_blog(request, id):
     if (not request.user.is_authenticated):
@@ -109,7 +96,6 @@ def delete_block(request, id, blockid):
         id=blockid).delete()
     url = '/edit/'+str(id)
     return redirect(url)
-
 
 def update_position(request,id):
     if(not request.user.is_authenticated):
@@ -135,7 +121,21 @@ def update_block(request,id):
         return redirect('/')
     user = request.user
     blog = user.blog_set.get(id=id)
-    
+    if request.method=='POST':
+        position = request.POST['edit_position']
+        title = request.POST['edit_title']
+        content = request.POST['edit_content']
+        image = request.FILES.get('edit_image',False)
+        block_id = request.POST['block_id']
+        b = blog.block_set.get(pk=block_id)
+        b.title = title
+        b.content = content
+        b.image = image
+        b.position = position
+        b.save()
+    blocks = blog.block_set.all().order_by('position')
+    url = '../../../edit/' + str(id)
+    return redirect(url)
 
 
 # def create_blog(request, heading):
@@ -145,15 +145,20 @@ def update_block(request,id):
 #     blog = user.blog_set.create(heading=heading)
 #     return redirect('/')
 #
-# def create_block(request, id, title, content):
-#     if (not request.user.is_authenticated):
-#         return redirect('/')
-#     user = request.user
-#     blog = user.blog_set.get(id=id)
-#     content = content.replace('\n', '<br>')
-#     blog.block_set.create(title=title, content=content)
-#     url = '/edit/'+str(id)
-#     return redirect(url)
+def create_block(request, id):
+    if (not request.user.is_authenticated):
+        return redirect('/')
+    user = request.user
+    blog = user.blog_set.get(id=id)
+    if request.method == "POST":
+        title = request.POST['title']
+        content = request.POST['content']
+        image = request.FILES.get('image',False)
+        length = len(blog.block_set.all())+1
+        b = blog.block_set.create(blog=blog, title=title, content=content, image=image, position=length) # create a new block of that kind :)
+    blocks = blog.block_set.all().order_by('position')
+    url = '../../../edit/'+str(id)
+    return redirect(url)
 #
 # def update_block(request, blogId, id, isMerged):
 #     if (not request.user.is_authenticated):

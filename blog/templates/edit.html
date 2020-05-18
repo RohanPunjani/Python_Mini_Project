@@ -132,7 +132,7 @@
         </div>
     </header>
     
-    <form action="" name="form" method="POST" enctype="multipart/form-data">
+    <form action="create/{{feed.id}}/block" name="form" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <!-- Edit Buttons  -->
         <h3 class="sticky container">
@@ -322,9 +322,10 @@
     </form>
 
 
-    <form method="POST" name="update_form">
+    <form method="POST" name="update_form" action='update/{{feed.id}}/block' enctype="multipart/form-data">
         {% csrf_token %}
-
+        <input type="text" name="edit_position" value="" style="display: none;">
+        <input type="text" name="block_id" value="" style="display: none;">
         <div class="modal fade" id="edit_title_modal">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -372,8 +373,8 @@
                     </div>    
                     <div class="modal-body">
                         <div class="custom-file">
-                            <input id="image_file" class="custom-file-input" type="file" name="image" onchange="get_filename()">
-                            <label for="image_file" class="custom-file-label" id="label_image_file">Choose an image</label>
+                            <input id="edited_image_file" class="custom-file-input" type="file" name="edit_image" onchange="get_edited_filename()">
+                            <label for="edited_image_file" class="custom-file-label" id="label_edited_image_file">Choose an image</label>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -476,10 +477,16 @@
                 },
             });
             $('.block_child').click(function(){
+
+                $("#edit_title_modal .modal_body #edit_title").val('')
+                $("#edit_title_modal .modal_body .form-group #edit_content").val('')
+
                 block_type = $(this).attr('block-type'); //title, content, image
                 block_id = $(this).parent().attr('id').substr(6); // 52,34,21, ...
+                $('form[name=update_form] input[name=block_id]').val(block_id);
                 block_child_value = '';
                 block_position = $(this).parent().attr('data-index'); // 0,1,2,3,4, ...
+                $("input[name=edit_position]").val(block_position);
                 modal_id = 'edit_' + block_type + '_modal'; // edit_title_modal, edit_content_modal, edit_image_modal
                 selector = '#' + modal_id + ' .modal-body';
                 if(block_type!='image')
@@ -494,10 +501,14 @@
                         block_child_value = $(this).text();
                         selector += ' .form-group #edit_content';
                     }
+                    $(selector).val(block_child_value);
                 } 
-                else block_child_value = $(this).children('img').attr("src").substr(30); // img5.jpg
-                $(selector).val(block_child_value);
-                console.log(selector)
+                else 
+                {
+                    block_child_value = $(this).children('img').attr("src").substr(30); 
+                    // img5.jpg
+                    $("#label_edited_image_file").text(block_child_value);
+                }
                 // $('#'+ modal_id).modal('show')
             })
         })
@@ -530,6 +541,11 @@
         function get_filename(){
             var image_file = document.getElementById('image_file');
             $('#label_image_file').text(image_file.files.item(0).name)
+        }
+        function get_edited_filename(){
+            console.log('I was called')
+            var image_file = document.getElementById('edited_image_file');
+            $('#label_edited_image_file').text(image_file.files.item(0).name)
         }
     </script>
 
