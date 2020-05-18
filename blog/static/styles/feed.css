@@ -28,7 +28,8 @@ h1{
     font-size: 1.5vh;
 }
 .main{
-    padding: 15vh 5vw;
+    padding: 15vh 5vw 5vh 5vw;
+    min-height: 90vh;
 }
 .col-md-6{
     padding:1vh;

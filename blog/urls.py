@@ -21,4 +21,5 @@ urlpatterns = [
          views.delete_block, name='delete_block'),
     path('edit/publish/<int:id>', views.publish_blog, name='publish_blog'),
     path('unpublish/<int:id>', views.unpublish_blog, name='unpublish_blog'),
+    path('search', views.search_view, name='search_View'),
 ]
